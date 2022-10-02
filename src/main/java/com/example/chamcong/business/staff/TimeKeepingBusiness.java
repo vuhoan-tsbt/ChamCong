@@ -12,6 +12,7 @@ import com.example.chamcong.utils.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Service
@@ -37,9 +38,9 @@ public class TimeKeepingBusiness extends BaseBusiness {
     public TimeKeepingResponse timeKeepingEntry() {
         User user = getCurrentUser();
         String radixCode = stringUtils.randomString(10);
-        timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
+        TimeKeeping timeKeeping = timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
                 .setUser(user));
-        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setUser(user)
+        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setTimeKeeping(timeKeeping)
                 .setEntryTime(String.valueOf(LocalDateTime.now())));
         return new TimeKeepingResponse(user.getId(), radixCode);
     }
@@ -47,9 +48,9 @@ public class TimeKeepingBusiness extends BaseBusiness {
     public TimeKeepingResponse timeOutKeeping() {
         User user = getCurrentUser();
         String radixCode = stringUtils.randomString(10);
-        timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
+        TimeKeeping timeKeeping = timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
                 .setUser(user));
-        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setUser(user)
+        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setTimeKeeping(timeKeeping)
                 .setTimeout(String.valueOf(LocalDateTime.now())));
         return new TimeKeepingResponse(user.getId(), radixCode);
     }

@@ -18,10 +18,11 @@ public class TimeKeepingDetails {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
 
-    private User user;
+
+    @OneToOne
+    @JoinColumn(name="timekeeping_id")
+    private TimeKeeping timeKeeping;
 
 
     private String entryTime;
