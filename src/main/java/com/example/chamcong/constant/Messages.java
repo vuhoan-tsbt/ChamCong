@@ -1,0 +1,29 @@
+package com.example.chamcong.constant;
+
+public class Messages {
+    public static final String MES001 = "email nhập không đúng định dạng";
+
+    public static final String MES002 = "Mật khẩu phải từ 8 - 100 ký tự";
+
+    public static final String MES003 = "Mật khẩu phải có chứa ít nhất 1 chữ cái viết hoa và 1 ký tự đặc biệt";
+
+    public static final String MES004 = "Mật khẩu không được bỏ trống";
+
+    public static final String MES005 = "Email không được bỏ trống";
+
+    public static final String MES006 = " Tên Không được bỏ trống";
+
+    public static final String MES007 = "Ngày sinh không được bỏ trống";
+
+    public static final String MES008 = "Nhập không đúng định dạng ngày sinh";
+
+    public static final String MES009 = "Tên phải từ 3 - 100 ký tự";
+
+    public static final String MES010 = "Email phải từ 12 - 100 ký tự";
+
+    public static final String MES011 = "Địa chỉ không được bỏ trống";
+
+    public static final String MES012 = "Địa chỉ phải từ 5 - 30 ký tự";
+
+    public static final String MES013 ="Mã nhân viên không được bỏ chống";
+}
