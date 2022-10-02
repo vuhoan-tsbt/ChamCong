@@ -39,17 +39,17 @@ public class TimeKeepingBusiness extends BaseBusiness {
         String radixCode = stringUtils.randomString(10);
         timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
                 .setUser(user));
-        timeKeepingDetailsRepository.save(new TimeKeepingDetails()
+        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setUser(user)
                 .setEntryTime(String.valueOf(LocalDateTime.now())));
         return new TimeKeepingResponse(user.getId(), radixCode);
     }
 
     public TimeKeepingResponse timeOutKeeping() {
         User user = getCurrentUser();
-        String radixCode =stringUtils.randomString(10);
-       timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
+        String radixCode = stringUtils.randomString(10);
+        timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
                 .setUser(user));
-        timeKeepingDetailsRepository.save(new TimeKeepingDetails()
+        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setUser(user)
                 .setTimeout(String.valueOf(LocalDateTime.now())));
         return new TimeKeepingResponse(user.getId(), radixCode);
     }

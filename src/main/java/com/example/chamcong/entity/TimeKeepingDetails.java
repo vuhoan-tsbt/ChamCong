@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @Accessors(chain = true)
 @Table(name = "timekeeping_details")
-public class TimeKeepingDetails extends BaseEntity {
+public class TimeKeepingDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,11 +23,10 @@ public class TimeKeepingDetails extends BaseEntity {
 
     private User user;
 
-    private String time;
 
     private String entryTime;
 
     private String timeout;
 
-    private String shift;
+
 }

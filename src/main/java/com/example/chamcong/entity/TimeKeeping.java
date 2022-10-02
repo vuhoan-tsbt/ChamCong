@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 @Accessors(chain=true)
 @Table(name = "timekeeping")
-public class TimeKeeping extends BaseEntity {
+public class TimeKeeping  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,6 @@ public class TimeKeeping extends BaseEntity {
     @ManyToOne
     private User user;
 
-    private Date months;
 
     private String radixCode;
 
