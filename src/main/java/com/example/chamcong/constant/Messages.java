@@ -26,4 +26,12 @@ public class Messages {
     public static final String MES012 = "Địa chỉ phải từ 5 - 30 ký tự";
 
     public static final String MES013 ="Mã nhân viên không được bỏ chống";
+
+    public static final String MES014 = "Mã token không được bỏ trống";
+
+    public static final String MES015 = "ID không được bỏ trống";
+
+    public static final String MES016 = "role không được bỏ trống";
+
+    public static final String MES017 = "Chỉ được nhập 1 - 2 - 3 ";
 }

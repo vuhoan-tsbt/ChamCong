@@ -1,6 +1,6 @@
 package com.example.chamcong.controller.staff;
 
-import com.example.chamcong.business.staff.TimeKeepingBusiness;
+import com.example.chamcong.business.staff.StaffTimeKeepingBusiness;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.response.TimeKeepingResponse;
 import org.springframework.http.MediaType;
@@ -12,21 +12,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/timekeeping/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('STAFF')")
-public class TimeKeepingController {
-    private final TimeKeepingBusiness  timeKeepingBusiness;
+public class StaffTimeKeepingController {
+    private final StaffTimeKeepingBusiness staffTimeKeepingBusiness;
 
-    public TimeKeepingController(TimeKeepingBusiness  timeKeepingBusiness){
-        this.timeKeepingBusiness = timeKeepingBusiness;
+    public StaffTimeKeepingController(StaffTimeKeepingBusiness staffTimeKeepingBusiness){
+        this.staffTimeKeepingBusiness = staffTimeKeepingBusiness;
     }
 
     @PostMapping("/entry")
     public RootResponse<TimeKeepingResponse> timeKeepingEntry(){
-        return RootResponse.success("Cảm ơn bạn",timeKeepingBusiness.timeKeepingEntry());
+        return RootResponse.success("Cảm ơn bạn", staffTimeKeepingBusiness.timeKeepingEntry());
 
     }
     @PostMapping("/out")
     public RootResponse<TimeKeepingResponse> timeOutKeeping(){
-        return RootResponse.success("Tạm Biệt Bạn",timeKeepingBusiness.timeOutKeeping());
+        return RootResponse.success("Tạm Biệt Bạn", staffTimeKeepingBusiness.timeOutKeeping());
     }
 
 

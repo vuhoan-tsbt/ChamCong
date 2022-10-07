@@ -16,7 +16,7 @@ import java.sql.Time;
 import java.time.LocalDateTime;
 
 @Service
-public class TimeKeepingBusiness extends BaseBusiness {
+public class StaffTimeKeepingBusiness extends BaseBusiness {
 
     private final StringUtils stringUtils;
 
@@ -24,7 +24,7 @@ public class TimeKeepingBusiness extends BaseBusiness {
 
     private final TimeKeepingDetailsRepository timeKeepingDetailsRepository;
 
-    public TimeKeepingBusiness(StringUtils stringUtils, TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository) {
+    public StaffTimeKeepingBusiness(StringUtils stringUtils, TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository) {
         this.stringUtils = stringUtils;
         this.timeKeepingRepository = timeKeepingRepository;
         this.timeKeepingDetailsRepository = timeKeepingDetailsRepository;

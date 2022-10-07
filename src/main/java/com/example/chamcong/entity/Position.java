@@ -9,21 +9,19 @@ import javax.persistence.*;
 @Entity
 @Data
 @Accessors(chain = true)
-@Table(name = "timekeeping_details")
-public class TimeKeepingDetails {
+@Table(name = "position")
+public class Position {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
 
-    @OneToOne
-    @JoinColumn(name="timekeeping_id")
-    private TimeKeeping timeKeeping;
+    private String position;
 
-    private String entryTime;
+    private int wage;
 
-    private String timeout;
+    private long salary;
 
-
+    private long allowance;
 }

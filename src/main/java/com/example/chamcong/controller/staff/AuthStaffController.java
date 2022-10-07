@@ -1,17 +1,22 @@
 package com.example.chamcong.controller.staff;
 
-import com.example.chamcong.business.admin.AuthAdminBusiness;
+
 import com.example.chamcong.business.staff.AuthStaffBusiness;
 import com.example.chamcong.model.RootResponse;
+import com.example.chamcong.model.request.ForgotPasswordStaffRequest;
 import com.example.chamcong.model.request.LoginStaffRequest;
+import com.example.chamcong.model.request.StaffResetPasswordTokenRequest;
 import com.example.chamcong.model.response.LoginStaffResponse;
+import com.example.chamcong.model.response.StaffResetPasswordTokenResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 
 @RequestMapping(value = "/auth/staff/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
@@ -26,5 +31,18 @@ public class AuthStaffController {
     public RootResponse<LoginStaffResponse> loginStaff(@RequestBody @Valid LoginStaffRequest input) {
         return RootResponse.success("", authStaffBusiness.loginStaff(input));
     }
+
+    @PostMapping("/forgot_password")
+    public RootResponse<String> sendUrlResetPassword(@RequestBody @Valid ForgotPasswordStaffRequest input) throws MessagingException, UnsupportedEncodingException {
+        authStaffBusiness.sendUrlResetPassword(input.getEmail());
+        return RootResponse.success("Thông tin đã được gửi đến gmail của bạn", null);
+    }
+    @PostMapping("/reset_password")
+    public RootResponse<StaffResetPasswordTokenResponse> resetPassword(@RequestBody @Valid StaffResetPasswordTokenRequest input) {
+        authStaffBusiness.resetPassword(input);
+        return RootResponse.success("Đổi Mật khẩu thành công, bạn hãy đăng nhập lại", null);
+    }
+
+
 
 }

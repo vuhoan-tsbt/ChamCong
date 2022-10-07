@@ -1,12 +1,10 @@
 package com.example.chamcong.entity;
 
-import com.example.chamcong.entity.base.BaseEntity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
@@ -22,7 +20,6 @@ public class TimeKeeping  {
     @JoinColumn(name = "user_id")
     @ManyToOne
     private User user;
-
 
     private String radixCode;
 

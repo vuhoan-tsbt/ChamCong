@@ -32,4 +32,9 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
 
     @Query("select user from User user where user.staffCode = :code")
     Optional<Employee> getByStaffCode(String code);
+
+    @Query("select user from User user where user.id = :id")
+    Optional<User> findByIdPassword(int id);
+
+
 }

@@ -1,6 +1,5 @@
 package com.example.chamcong.entity;
 
-import com.example.chamcong.entity.UserRole;
 import com.example.chamcong.entity.base.BaseUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
@@ -46,6 +45,16 @@ public class User extends BaseUser {
     private String dateOfBirth;
 
     private String address;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "position_id")
+    private Position position;
 
     @Override
     protected List<? extends UserRole> getRoles() {

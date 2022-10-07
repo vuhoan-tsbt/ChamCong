@@ -1,20 +1,22 @@
 package com.example.chamcong.business.admin;
 
 import com.example.chamcong.business.BaseBusiness;
-import com.example.chamcong.entity.Employee;
-import com.example.chamcong.entity.User;
-import com.example.chamcong.entity.UserRole;
+import com.example.chamcong.entity.*;
 import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.CreateEmployeeRequest;
 import com.example.chamcong.model.request.UpdateEmployeeRequest;
 import com.example.chamcong.model.response.IdResponse;
+import com.example.chamcong.repository.DepartmentRepository;
+import com.example.chamcong.repository.PositionRepository;
+import com.example.chamcong.repository.UserRoleRepository;
 import com.example.chamcong.utils.HashUtils;
 import org.dozer.Mapper;
 import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.request.SearchUserRequest;
 import com.example.chamcong.model.response.UserResponse;
 import com.example.chamcong.repository.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +33,19 @@ public class UserAdminBusiness extends BaseBusiness {
 
     private final HashUtils hashUtils;
 
-    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils) {
+    private final DepartmentRepository departmentRepository;
+
+    private final PositionRepository positionRepository;
+
+    private final UserRoleRepository userRoleRepository;
+
+    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils, DepartmentRepository departmentRepository,PositionRepository positionRepository,UserRoleRepository userRoleRepository) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.hashUtils = hashUtils;
+        this.departmentRepository = departmentRepository;
+        this.positionRepository = positionRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     public String Numbers(long numbers) {
@@ -51,6 +62,7 @@ public class UserAdminBusiness extends BaseBusiness {
         }
         return out + numbers;
     }
+
 
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -70,11 +82,18 @@ public class UserAdminBusiness extends BaseBusiness {
             throw new DataNotFoundException("Email da ton tai");
         }
         long number = userRepository.countUser() + 1;
-        User employee = userRepository.save((Employee) mapper.map(input, Employee.class)
-                .setStaffCode("STAFF" + Numbers(number))
-                .setStatus(AccStatusEnum.ACTIVATED))
-                .setRole(new UserRole(2, "STAFF"));
+        Employee employee = new Employee();
+        employee.setEmail(input.getEmail());
+        UserRole userRole = userRoleRepository.getById(input.getRole());
+        employee.setRole(userRole);
+        Department department = departmentRepository.getById(input.getDepartmentId());
+        employee.setDepartment(department);
+        Position position = positionRepository.getById(input.getPositionId());
+        employee.setPosition(position);
+        employee.setStaffCode("STAFF" + Numbers(number));
+        employee.setStatus(AccStatusEnum.ACTIVATED);
         employee.setPassword(hashUtils.hash(employee.getPassword()));
+        userRepository.save(employee);
         return new IdResponse(employee.getId());
 
     }
