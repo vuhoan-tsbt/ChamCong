@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserResponse {
+
     private int id;
 
     private String fullName;
