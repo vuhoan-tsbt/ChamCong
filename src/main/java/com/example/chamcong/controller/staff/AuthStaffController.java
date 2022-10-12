@@ -9,10 +9,7 @@ import com.example.chamcong.model.request.StaffResetPasswordTokenRequest;
 import com.example.chamcong.model.response.LoginStaffResponse;
 import com.example.chamcong.model.response.StaffResetPasswordTokenResponse;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -20,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 
 @RequestMapping(value = "/auth/staff/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
+@CrossOrigin("http://localhost:8080/")
 public class AuthStaffController {
     private final AuthStaffBusiness authStaffBusiness ;
 
