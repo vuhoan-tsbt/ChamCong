@@ -1,15 +1,13 @@
 <template>
-  <div class="container">
     <div class="c-app">
-      <div class="row">
-        <div class="col-1"><SideBar /></div>
-        <div class="col-11">
+      <div class="row" style="display: flex;">
+        <SideBar />
+        <div style="width:calc(100% - 290px)">
           <Header />
           <router-view v-slot="{ Component }">
             <component :is="Component" />
           </router-view>
         </div>
-      </div>
     </div>
   </div>
 </template>

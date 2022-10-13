@@ -14,6 +14,14 @@ const routes = [
         path: 'staff',
         component: () => import('../views/staff/List.vue'),
       },
+      {
+        path: 'user/created',
+        component: () => import('../views/userAdmin/CreateEmployee.vue'),
+      },
+      {
+        path: 'user/updated/:id',
+        component: () => import('../views/userAdmin/UpdateEmployee.vue'),
+      },
     ],
   },
   {
