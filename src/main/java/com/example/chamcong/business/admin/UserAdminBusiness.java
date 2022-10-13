@@ -72,7 +72,18 @@ public class UserAdminBusiness extends BaseBusiness {
         List<User> listUser = userRepository.findAllByCondition(input);
         int totalElements = userRepository.getAllByCondition(input);
         int totalPages = Math.max(1, (int) Math.ceil((double) totalElements / input.getSize()));
-        List<UserResponse> userResponses = listUser.stream().map(user -> mapper.map(user, UserResponse.class)).collect(Collectors.toList());
+        List<UserResponse> userResponses = listUser.stream().map(user -> {
+            UserResponse userResponse = new UserResponse();
+            userResponse.setId(user.getId());
+            userResponse.setEmail(user.getEmail());
+            userResponse.setStaffCode(user.getStaffCode());
+            userResponse.setDateOfBirth(user.getDateOfBirth());
+            userResponse.setCreatedAt(String.valueOf(user.getCreatedAt()));
+            userResponse.setAddress(user.getAddress());
+            userResponse.setDepartment(user.getDepartment().getDepartment());
+            userResponse.setPosition(user.getPosition().getPosition());
+            return userResponse;
+        }).collect(Collectors.toList());
         return PageResponse.create(totalPages, totalElements, userResponses);
     }
 

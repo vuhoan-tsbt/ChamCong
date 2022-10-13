@@ -24,4 +24,8 @@ public class UserResponse {
     private String address;
 
     private String createdAt;
+
+    private String department;
+
+    private String position;
 }

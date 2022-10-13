@@ -1,8 +1,6 @@
 package com.example.chamcong.business;
 
-import com.example.chamcong.entity.Manager;
-import com.example.chamcong.entity.User;
-import com.example.chamcong.entity.UserRole;
+import com.example.chamcong.entity.*;
 import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.response.IdResponse;
@@ -57,7 +55,9 @@ public class RegisterAdminBusiness extends BaseBusiness{
                 .setEmail(input.getEmail())
                 .setPassword(hashUtils.hash(input.getPassword()))
                 .setStaffCode("MNGR" + setNumbers(userRepository.countUser() + 1)))
-                .setRole(new UserRole(1, "ADMIN")));
+                .setRole(new UserRole(1, "ADMIN"))
+                .setDepartment(new Department(4,"EXECUTIVE BOARD"))
+                .setPosition(new Position(6,"CEO",0,100000000,6)));
         userRepository.save((User) user.setStatus(AccStatusEnum.ACTIVATED));
         return new IdResponse(user.getId());
     }
