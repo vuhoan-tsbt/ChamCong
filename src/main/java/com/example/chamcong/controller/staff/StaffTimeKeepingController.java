@@ -2,6 +2,7 @@ package com.example.chamcong.controller.staff;
 
 import com.example.chamcong.business.staff.StaffTimeKeepingBusiness;
 import com.example.chamcong.model.RootResponse;
+import com.example.chamcong.model.response.TimeKeepingOutResponse;
 import com.example.chamcong.model.response.TimeKeepingResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,7 +26,7 @@ public class StaffTimeKeepingController {
 
     }
     @PostMapping("/out")
-    public RootResponse<TimeKeepingResponse> timeOutKeeping(){
+    public RootResponse<TimeKeepingOutResponse> timeOutKeeping(){
         return RootResponse.success("Tạm Biệt Bạn", staffTimeKeepingBusiness.timeOutKeeping());
     }
 

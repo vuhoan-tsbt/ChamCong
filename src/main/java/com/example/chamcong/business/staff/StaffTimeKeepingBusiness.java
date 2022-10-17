@@ -4,7 +4,7 @@ import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.entity.TimeKeeping;
 import com.example.chamcong.entity.TimeKeepingDetails;
 import com.example.chamcong.entity.User;
-import com.example.chamcong.model.RootResponse;
+import com.example.chamcong.model.response.TimeKeepingOutResponse;
 import com.example.chamcong.model.response.TimeKeepingResponse;
 import com.example.chamcong.repository.TimeKeepingDetailsRepository;
 import com.example.chamcong.repository.TimeKeepingRepository;
@@ -12,8 +12,8 @@ import com.example.chamcong.utils.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class StaffTimeKeepingBusiness extends BaseBusiness {
@@ -45,13 +45,14 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         return new TimeKeepingResponse(user.getId(), radixCode);
     }
 
-    public TimeKeepingResponse timeOutKeeping() {
+    public TimeKeepingOutResponse timeOutKeeping() {
         User user = getCurrentUser();
-        String radixCode = stringUtils.randomString(10);
-        TimeKeeping timeKeeping = timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
-                .setUser(user));
-        timeKeepingDetailsRepository.save(new TimeKeepingDetails().setTimeKeeping(timeKeeping)
-                .setTimeout(String.valueOf(LocalDateTime.now())));
-        return new TimeKeepingResponse(user.getId(), radixCode);
+        List<TimeKeeping> timeKeeping = timeKeepingRepository.getByUserId(user);
+        for (TimeKeeping keeping : timeKeeping) {
+            TimeKeepingDetails timeKeepingDetails = timeKeepingDetailsRepository.getById(keeping);
+            timeKeepingDetails.setTimeout(String.valueOf(LocalDateTime.now()));
+            timeKeepingDetailsRepository.save(timeKeepingDetails);
+        }
+        return new TimeKeepingOutResponse(user.getId());
     }
 }
