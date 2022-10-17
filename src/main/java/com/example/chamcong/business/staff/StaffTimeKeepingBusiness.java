@@ -5,7 +5,7 @@ import com.example.chamcong.entity.TimeKeeping;
 import com.example.chamcong.entity.TimeKeepingDetails;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.model.response.TimeKeepingOutResponse;
-import com.example.chamcong.model.response.TimeKeepingResponse;
+import com.example.chamcong.model.response.TimeKeepingEntryResponse;
 import com.example.chamcong.repository.TimeKeepingDetailsRepository;
 import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.utils.StringUtils;
@@ -35,14 +35,14 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public TimeKeepingResponse timeKeepingEntry() {
+    public TimeKeepingEntryResponse timeKeepingEntry() {
         User user = getCurrentUser();
         String radixCode = stringUtils.randomString(10);
         TimeKeeping timeKeeping = timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
                 .setUser(user));
         timeKeepingDetailsRepository.save(new TimeKeepingDetails().setTimeKeeping(timeKeeping)
                 .setEntryTime(String.valueOf(LocalDateTime.now())));
-        return new TimeKeepingResponse(user.getId(), radixCode);
+        return new TimeKeepingEntryResponse(user.getId(), radixCode);
     }
 
     public TimeKeepingOutResponse timeOutKeeping() {

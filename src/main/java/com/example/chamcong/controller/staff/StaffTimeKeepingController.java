@@ -3,7 +3,7 @@ package com.example.chamcong.controller.staff;
 import com.example.chamcong.business.staff.StaffTimeKeepingBusiness;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.response.TimeKeepingOutResponse;
-import com.example.chamcong.model.response.TimeKeepingResponse;
+import com.example.chamcong.model.response.TimeKeepingEntryResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class StaffTimeKeepingController {
     }
 
     @PostMapping("/entry")
-    public RootResponse<TimeKeepingResponse> timeKeepingEntry(){
+    public RootResponse<TimeKeepingEntryResponse> timeKeepingEntry(){
         return RootResponse.success("Cảm ơn bạn", staffTimeKeepingBusiness.timeKeepingEntry());
 
     }

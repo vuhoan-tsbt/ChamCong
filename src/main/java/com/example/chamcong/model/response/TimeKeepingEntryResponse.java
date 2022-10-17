@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @AllArgsConstructor
-public class TimeKeepingResponse {
+public class TimeKeepingEntryResponse {
 
     private int id;
 
