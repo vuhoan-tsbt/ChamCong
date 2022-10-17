@@ -150,7 +150,7 @@ export default function useMixin() {
   const put = async (apiPath, params, showLoadingFlg = true, config = {}) =>
     http("PUT", apiPath, params, showLoadingFlg, config);
 
-  const del = async (apiPath, params, showLoadingFlg = true, config = {}) =>
+  const del = async (apiPath, params, showLoadingFlg = false, config = {}) =>
     http("DELETE", apiPath, params, showLoadingFlg, config);
 
   return {

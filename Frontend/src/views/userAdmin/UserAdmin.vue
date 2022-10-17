@@ -80,6 +80,12 @@ export default defineComponent({
     const edit = (id) => {
       router.push(`/user/updated/${id}`);
     };
+    
+    const search = async () => {
+      const result = await get("user/api/list-user");
+      listUser.value = result.payload.data;
+    }
+
     const deleted =async (id) => {
       const result = await del(`user/api/user/${id}`);
       if(result.code == 200){
@@ -87,11 +93,6 @@ export default defineComponent({
 
       }
     };
-    
-    const search = async () => {
-      const result = await get("user/api/list-user");
-      listUser.value = result.payload.data;
-    }
 
     onMounted(async () => {
       await search();
