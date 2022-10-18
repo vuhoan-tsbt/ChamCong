@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -38,10 +39,18 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
     public TimeKeepingEntryResponse timeKeepingEntry() {
         User user = getCurrentUser();
         String radixCode = stringUtils.randomString(10);
-        TimeKeeping timeKeeping = timeKeepingRepository.save(new TimeKeeping().setRadixCode(radixCode)
-                .setUser(user));
+
+        TimeKeeping timeKeeping = new TimeKeeping();
+
+        timeKeeping.setRadixCode(radixCode);
+        timeKeeping.setUser(user);
+
+        Calendar calendar = Calendar.getInstance();
+        int months = calendar.get(Calendar.MONTH ) + 1;
+        timeKeeping.setMonths(String.valueOf(months));
+        timeKeepingRepository.save(timeKeeping);
         timeKeepingDetailsRepository.save(new TimeKeepingDetails().setTimeKeeping(timeKeeping)
-                .setEntryTime(String.valueOf(LocalDateTime.now())));
+                .setEntryTime(LocalDateTime.now()));
         return new TimeKeepingEntryResponse(user.getId(), radixCode);
     }
 
@@ -50,7 +59,7 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         List<TimeKeeping> timeKeeping = timeKeepingRepository.getByUserId(user);
         for (TimeKeeping keeping : timeKeeping) {
             TimeKeepingDetails timeKeepingDetails = timeKeepingDetailsRepository.getById(keeping);
-            timeKeepingDetails.setTimeout(String.valueOf(LocalDateTime.now()));
+            timeKeepingDetails.setTimeout(LocalDateTime.now());
             timeKeepingDetailsRepository.save(timeKeepingDetails);
         }
         return new TimeKeepingOutResponse(user.getId());

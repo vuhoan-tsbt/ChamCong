@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -21,9 +22,9 @@ public class TimeKeepingDetails {
     @JoinColumn(name="timekeeping_id")
     private TimeKeeping timeKeeping;
 
-    private String entryTime;
+    private LocalDateTime entryTime;
 
-    private String timeout;
+    private LocalDateTime timeout;
 
 
 }

@@ -23,4 +23,6 @@ public class TimeKeeping  {
 
     private String radixCode;
 
+    private String months;
+
 }
