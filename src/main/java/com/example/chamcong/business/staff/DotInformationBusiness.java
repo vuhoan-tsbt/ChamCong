@@ -3,10 +3,14 @@ package com.example.chamcong.business.staff;
 import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.dto.TimeKeepingDTO;
 import com.example.chamcong.entity.TimeKeepingDetails;
+import com.example.chamcong.entity.User;
 import com.example.chamcong.model.request.DotInformationRequest;
+import com.example.chamcong.model.request.SalaryEmployeeRequest;
 import com.example.chamcong.model.response.DotInformationResponse;
+import com.example.chamcong.model.response.SalaryEmployeeResponse;
 import com.example.chamcong.repository.TimeKeepingDetailsRepository;
 import com.example.chamcong.repository.TimeKeepingRepository;
+import com.example.chamcong.repository.UserRepository;
 import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
@@ -24,10 +28,12 @@ public class DotInformationBusiness extends BaseBusiness {
 
     private final TimeKeepingRepository timeKeepingRepository;
     private final TimeKeepingDetailsRepository timeKeepingDetailsRepository;
+    private final UserRepository userRepository;
 
-    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository) {
+    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository,UserRepository userRepository) {
         this.timeKeepingRepository = timeKeepingRepository;
         this.timeKeepingDetailsRepository = timeKeepingDetailsRepository;
+        this.userRepository = userRepository;
     }
 
     public DotInformationResponse dotInformation(DotInformationRequest input) {
@@ -57,5 +63,11 @@ public class DotInformationBusiness extends BaseBusiness {
         }
         response.setKeeping(dtoList);
         return response;
+    }
+
+    public SalaryEmployeeResponse payroll(SalaryEmployeeRequest input) {
+        List<User> user = userRepository.getBySalary();
+        System.out.println("danh sach"+user);
+        return null;
     }
 }

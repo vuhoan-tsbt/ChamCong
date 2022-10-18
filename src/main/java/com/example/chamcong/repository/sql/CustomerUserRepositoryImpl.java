@@ -1,8 +1,6 @@
 package com.example.chamcong.repository.sql;
 
-import com.example.chamcong.dto.TimeKeepingDTO;
 import com.example.chamcong.entity.User;
-import com.example.chamcong.model.request.DotInformationRequest;
 import com.example.chamcong.model.request.SearchUserRequest;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +46,13 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
         Query query = entityManager.createNativeQuery(sql);
         int count = ((Number) query.getSingleResult()).intValue();
         return count;
+    }
+
+    @Override
+    public List<User> getBySalary() {
+        String sql = "select * from user a inner join  position c on a.position_id=c.id "  ;
+
+        return  entityManager.createNativeQuery(sql, User.class).getResultList();
     }
 
 
