@@ -34,4 +34,8 @@ public class Messages {
     public static final String MES016 = "role không được bỏ trống";
 
     public static final String MES017 = "Chỉ được nhập 1 - 2 - 3 ";
+
+    public static final String MES018 = "Mã nhân viên không được bỏ trống";
+
+    public static final String MES019 = "Thông tin không được bỏ trống";
 }

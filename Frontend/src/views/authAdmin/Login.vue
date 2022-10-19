@@ -107,7 +107,7 @@ export default defineComponent({
         email: email.value,
         password: password.value,
       };
-      const result = await post("/auth/api/manger/login", dataLogin);
+      const result = await post("/auth/api/login", dataLogin);
       if (result.code === 200) {
         console.log(result);
         store.dispatch('common/updateAdminUser', result.payload);

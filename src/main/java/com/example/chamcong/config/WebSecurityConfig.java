@@ -42,15 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .authorizeRequests()
                 .antMatchers("/user/api/register").permitAll()
-                .antMatchers("/auth/api/manger/login").permitAll()
+                .antMatchers("/auth/api/login").permitAll()
                 .antMatchers("/auth/staff/api/reset_password").permitAll()
                 .antMatchers("/auth/staff/api/forgot_password").permitAll()
+                .antMatchers("/auth/api/check_login").permitAll()
                 .antMatchers("/auth/staff/api/login").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
+                .and().logout().deleteCookies(JWTFilter.COOKIE_NAME)
                 .and().exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().addFilterAt(jwtFilter, (Class<? extends Filter>) UsernamePasswordAuthenticationFilter.class);
+
 
     }
 
