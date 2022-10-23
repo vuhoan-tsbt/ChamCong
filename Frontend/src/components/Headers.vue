@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <button type="button" class="btn btn-info">Logout</button>
     <button
       class="navbar-toggler"
       type="button"
@@ -41,9 +41,7 @@
             <a class="dropdown-item" href="#">Something else here</a>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Disabled</a>
-        </li>
+        
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input

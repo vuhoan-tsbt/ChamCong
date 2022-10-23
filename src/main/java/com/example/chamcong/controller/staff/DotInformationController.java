@@ -18,18 +18,22 @@ import javax.validation.Valid;
 public class DotInformationController {
 
     private final DotInformationBusiness dotInformationBusiness;
-    public DotInformationController(DotInformationBusiness dotInformationBusiness){
+
+    public DotInformationController(DotInformationBusiness dotInformationBusiness) {
         this.dotInformationBusiness = dotInformationBusiness;
     }
 
     @GetMapping("/dot_information")
-    public RootResponse<DotInformationResponse> dotInformation(@ModelAttribute DotInformationRequest input){
+    public RootResponse<DotInformationResponse> dotInformation(@ModelAttribute DotInformationRequest input) {
 
-        return RootResponse.success("Danh sách",dotInformationBusiness.dotInformation(input));
+        return RootResponse.success("Danh sách", dotInformationBusiness.dotInformation(input));
     }
-    @PostMapping("/payroll")
-    public RootResponse<SalaryEmployeeResponse> payroll(@RequestBody @Valid SalaryEmployeeRequest input){
-        return RootResponse.success("",dotInformationBusiness.payroll(input));
+
+
+    @PostMapping("/salary")
+    public RootResponse<SalaryEmployeeResponse> salary(@RequestBody @Valid SalaryEmployeeRequest input) {
+        return RootResponse.success("Lương của nhân viên là ", dotInformationBusiness.salary(input));
+
     }
 
 }

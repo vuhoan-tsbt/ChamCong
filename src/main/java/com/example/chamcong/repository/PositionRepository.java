@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer> {
+
     @Query("select position from Position position where position.id =:id")
     Position getById(Integer id);
 }

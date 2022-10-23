@@ -38,7 +38,6 @@ public class UserAdminController {
     @PostMapping("/user/{id}")
     public RootResponse<IdResponse> updateEmployee(@PathVariable("id") int id, @RequestBody @Valid UpdateEmployeeRequest input) {
         return RootResponse.success("update employee success", userAdminBusiness.updateEmployee(id, input));
-
     }
     @DeleteMapping("/user/{id}")
     public RootResponse<IdResponse> deleteEmployee(@PathVariable("id") int id) {

@@ -1,8 +1,6 @@
 package com.example.chamcong.entity.base;
 
 import com.example.chamcong.entity.UserRole;
-import com.example.chamcong.entity.base.BaseEntity;
-import com.example.chamcong.enumtation.AccStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -10,10 +8,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -29,7 +24,8 @@ public abstract class BaseUser extends BaseEntity implements UserDetails {
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
 
-    private AccStatusEnum status = AccStatusEnum.CREATED;
+    @Column(name= "status")
+    private Integer status;
 
     protected abstract List<? extends UserRole> getRoles();
 

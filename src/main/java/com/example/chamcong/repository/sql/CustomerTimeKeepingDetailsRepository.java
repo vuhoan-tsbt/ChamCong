@@ -8,4 +8,6 @@ import java.util.List;
 public interface CustomerTimeKeepingDetailsRepository {
 
     List<TimeKeepingDetails> getByALlTimeKeeping(DotInformationRequest input);
+
+
 }

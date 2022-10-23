@@ -21,4 +21,6 @@ public class CustomerTimeKeepingDetailsRepositoryImpl implements CustomerTimeKee
 
         return entityManager.createNativeQuery(sql, TimeKeepingDetails.class).getResultList();
     }
+
+
 }

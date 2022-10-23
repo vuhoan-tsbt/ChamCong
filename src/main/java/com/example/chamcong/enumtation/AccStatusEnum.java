@@ -1,14 +1,23 @@
 package com.example.chamcong.enumtation;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 
-@Getter
-@AllArgsConstructor
+
+
 public enum AccStatusEnum {
-    CREATED("CREATED"),
-    ACTIVATED("ACTIVATED"),
-    BANNED("BANNED");
+    CREATED("CREATED",0),
+    ACTIVATED("ACTIVATED",1),
+    BANNED("BANNED",2);
 
-    private String value;
+    private String name;
+    private Integer value;
+    AccStatusEnum(String name, Integer value){
+        this.name = name;
+        this.value = value;
+    }
+    public String getName(){
+        return this.name;
+    }
+    public Integer getValue(){
+        return this.value;
+    }
 }

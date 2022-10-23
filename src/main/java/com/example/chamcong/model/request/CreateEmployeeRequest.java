@@ -29,7 +29,6 @@ public class CreateEmployeeRequest {
     private Integer positionId;
 
     @NotNull(message = Messages.MES016)
-
-    @Pattern(regexp = "[0,1,2]", message = Messages.MES017)
-    private Integer role;
+    @Pattern(regexp = "[1,2,3]", message = Messages.MES017)
+    private String role;
 }

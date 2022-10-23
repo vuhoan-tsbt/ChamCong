@@ -7,16 +7,12 @@ import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.CreateEmployeeRequest;
 import com.example.chamcong.model.request.UpdateEmployeeRequest;
 import com.example.chamcong.model.response.IdResponse;
-import com.example.chamcong.repository.DepartmentRepository;
-import com.example.chamcong.repository.PositionRepository;
-import com.example.chamcong.repository.UserRoleRepository;
+import com.example.chamcong.repository.*;
 import com.example.chamcong.utils.HashUtils;
 import org.dozer.Mapper;
 import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.request.SearchUserRequest;
 import com.example.chamcong.model.response.UserResponse;
-import com.example.chamcong.repository.UserRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +35,19 @@ public class UserAdminBusiness extends BaseBusiness {
 
     private final UserRoleRepository userRoleRepository;
 
-    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils, DepartmentRepository departmentRepository,PositionRepository positionRepository,UserRoleRepository userRoleRepository) {
+    private final UserLoginHistoryRepository userLoginHistoryRepository;
+
+    private final TimeKeepingRepository timeKeepingRepository;
+
+    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils, DepartmentRepository departmentRepository, PositionRepository positionRepository, UserRoleRepository userRoleRepository, UserLoginHistoryRepository userLoginHistoryRepository, TimeKeepingRepository timeKeepingRepository) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.hashUtils = hashUtils;
         this.departmentRepository = departmentRepository;
         this.positionRepository = positionRepository;
         this.userRoleRepository = userRoleRepository;
+        this.userLoginHistoryRepository = userLoginHistoryRepository;
+        this.timeKeepingRepository = timeKeepingRepository;
     }
 
     public String Numbers(long numbers) {
@@ -75,6 +77,7 @@ public class UserAdminBusiness extends BaseBusiness {
         List<UserResponse> userResponses = listUser.stream().map(user -> {
             UserResponse userResponse = new UserResponse();
             userResponse.setId(user.getId());
+            userResponse.setFullName(user.getFullName());
             userResponse.setEmail(user.getEmail());
             userResponse.setStaffCode(user.getStaffCode());
             userResponse.setDateOfBirth(user.getDateOfBirth());
@@ -95,14 +98,14 @@ public class UserAdminBusiness extends BaseBusiness {
         long number = userRepository.countUser() + 1;
         Employee employee = new Employee();
         employee.setEmail(input.getEmail());
-        UserRole userRole = userRoleRepository.getById(input.getRole());
+        UserRole userRole = userRoleRepository.getById(Integer.valueOf(input.getRole()));
         employee.setRole(userRole);
         Department department = departmentRepository.getById(input.getDepartmentId());
         employee.setDepartment(department);
         Position position = positionRepository.getById(input.getPositionId());
         employee.setPosition(position);
         employee.setStaffCode("STAFF" + Numbers(number));
-        employee.setStatus(AccStatusEnum.ACTIVATED);
+        employee.setStatus(1);
         employee.setPassword(hashUtils.hash(employee.getPassword()));
         userRepository.save(employee);
         return new IdResponse(employee.getId());
@@ -117,16 +120,26 @@ public class UserAdminBusiness extends BaseBusiness {
         User user = employee.get();
         user.setEmail(input.getEmail());
         user.setFullName(input.getFullName());
-        user.setStatus(input.getStatus());
+        user.setStatus(Integer.valueOf(input.getStatus()));
         userRepository.save(user);
         return new IdResponse(user.getId());
     }
 
     public IdResponse deleteEmployee(int id) {
-
         User user = userRepository.getById(id);
         if (user == null) {
             throw new DataNotFoundException("User Not Found");
+        }
+        List<UserLoginHistory> histories = userLoginHistoryRepository.finAllUserLoginHistory(id);
+        if(histories == null){
+            throw new DataNotFoundException("Không có lịch sử đăng nhập");
+        }
+        for(UserLoginHistory userLoginHistory :histories){
+            userLoginHistoryRepository.delete(userLoginHistory);
+        }
+        List<TimeKeeping> byUserId = timeKeepingRepository.findByIdUser(id);
+        if(byUserId.size() >0){
+            throw new DataNotFoundException("Cần xóa thông tin về chấm công và chi tiết chấm công của nhân viên này trước");
         }
         userRepository.delete(user);
         return new IdResponse(user.getId());

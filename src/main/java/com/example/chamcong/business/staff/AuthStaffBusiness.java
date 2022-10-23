@@ -13,7 +13,6 @@ import com.example.chamcong.repository.UserLoginHistoryRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.security.JWTProvider;
 import com.example.chamcong.service.MailService;
-import com.example.chamcong.utils.CheckerUtils;
 import com.example.chamcong.utils.HashUtils;
 import com.example.chamcong.utils.StringUtils;
 import org.springframework.stereotype.Service;
@@ -77,7 +76,7 @@ public class AuthStaffBusiness extends BaseBusiness {
         String token = jwtProvider.generateTokenEmail(email);
         user.setResetPasswordToken(token);
         userRepository.save(user);
-        mailService.sendMail(String.format("https://locahost:8081/%s/%s", email, token), email);
+        mailService.sendMail(String.format("http://locahost:8081/%s/%s", email, token), email);
     }
 
     public void resetPassword(StaffResetPasswordTokenRequest input) {

@@ -24,5 +24,7 @@ public class UpdateEmployeeRequest {
     @Size(min = 3, max = 100, message = Messages.MES009)
     private String fullName;
 
-    private AccStatusEnum status;
+    @NotBlank(message = Messages.MES021)
+    @Pattern(regexp = "[0,1,2]", message = Messages.MES020)
+    private String status;
 }

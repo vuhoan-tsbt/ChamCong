@@ -56,6 +56,8 @@ public class User extends BaseUser {
     @JoinColumn(name = "position_id")
     private Position position;
 
+
+
     @Override
     protected List<? extends UserRole> getRoles() {
         return null;

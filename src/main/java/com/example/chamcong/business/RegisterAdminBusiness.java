@@ -58,7 +58,7 @@ public class RegisterAdminBusiness extends BaseBusiness{
                 .setRole(new UserRole(1, "ADMIN"))
                 .setDepartment(new Department(4,"EXECUTIVE BOARD"))
                 .setPosition(new Position(6,"CEO",0,100000000,6)));
-        userRepository.save((User) user.setStatus(AccStatusEnum.ACTIVATED));
+        userRepository.save((User) user.setStatus(1));
         return new IdResponse(user.getId());
     }
 }
