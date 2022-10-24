@@ -1,7 +1,20 @@
 <template>
   <div class="table">
-    <button type="button" class="btn btn-primary" @click="createemployee">Create Staff</button>
+    
+    <div class="form-inline my-2 my-lg-0">
+        <input
+          class="form-control mr-sm-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search" v-model="keyword"
+        />
+        <button class="btn btn-outline-success my-2 my-sm-0" @click="search">
+          Search
+        </button>
+      </div>
+      <button type="button" class="btn btn-primary" @click="createemployee">Create Staff</button>
     <table class="table table-dark table-striped">
+      
       <thead>
         <tr>
           <td scope="col">id</td>
@@ -63,17 +76,42 @@
       </tbody>
     </table>
   </div>
+  <div>
+    <Pagination
+ />
+  </div>
+  <nav aria-label="Page navigation example">
+  <!-- <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul> -->
+  
+</nav>
+
 </template>
 <script>
 import { defineComponent, onMounted, ref } from "vue";
 import useMixin from "../../mixins/common";
 import { useRouter } from 'vue-router';
+import Pagination from "../../components/Pagination.vue";
 
 export default defineComponent({
+  components: [Pagination],
   setup() {
+    
     const { get,del } = useMixin();
     const listUser = ref();
     const router = useRouter();
+    const keyword = ref('');
+    const currentPage = ref(1);
+    const totalPages = ref(11);
+    const total = ref(1);
+    const onPageChange =(page) => {
+      currentPage.value = page;
+    }
     const createemployee =() => {
       router.push("/user/created");
     }
@@ -82,7 +120,11 @@ export default defineComponent({
     };
     
     const search = async () => {
-      const result = await get("user/api/list-user");
+      const dataserach = {
+        searchUser: keyword.value
+      }
+      const result = await get("user/api/list-user", dataserach);
+      console.log(1111, result);
       listUser.value = result.payload.data;
     }
 
@@ -99,10 +141,16 @@ export default defineComponent({
     });
     return {
       listUser,
+      keyword,
+      currentPage,
+      totalPages,
+      total,
       edit,
       deleted,
       createemployee,
-      search
+      search,
+      onPageChange,
+      Pagination
     };
   },
 });

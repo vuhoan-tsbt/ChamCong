@@ -14,20 +14,20 @@
     </a>
     <nav id="sidebar" class="sidebar-wrapper">
       <div class="sidebar-content">
-        <!-- <div class="sidebar-brand">
-          <a href="#">pro sidebar</a>
+         <div class="sidebar-brand">
+          <a href="#">Trang Quản Trị</a>
           <div id="close-sidebar">
             <i class="fas fa-times"></i>
           </div>
-        </div> -->
-        <!-- <div class="sidebar-header">
+        </div> >
+         <div class="sidebar-header">
         <div class="user-pic">
           <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
             alt="User picture">
         </div>
         <div class="user-info">
-          <span class="user-name">Jhon
-            <strong>Smith</strong>
+          <span class="user-name">
+            <strong>Admin</strong>
           </span>
           <span class="user-role">Administrator</span>
           <span class="user-status">
@@ -35,24 +35,9 @@
             <span>Online</span>
           </span>
         </div>
-      </div> -->
+      </div> 
         <!-- sidebar-header  -->
-        <div class="sidebar-search">
-          <div>
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control search-menu"
-                placeholder="Search..."
-              />
-              <div class="input-group-append">
-                <span class="input-group-text">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
+        
         <!-- sidebar-search  -->
         <div class="sidebar-menu">
           <ul>
@@ -62,32 +47,32 @@
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-tachometer-alt"></i>
-                <span>List User</span>
+                <span>Danh Sách Nhân Viên</span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
-                <span>E-commerce</span>
+                <span>Tin Tức</span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="far fa-gem"></i>
-                <span>Components</span>
+                <span>Bảng Lương</span>
               </a>
              
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-chart-line"></i>
-                <span>Charts</span>
+                <span>Các Phòng Ban</span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-globe"></i>
-                <span>Maps</span>
+                <span>Chức Vụ</span>
               </a>
             </li>
             <li class="header-menu">
@@ -96,7 +81,7 @@
             <li>
               <a href="#">
                 <i class="fa fa-book"></i>
-                <span>Documentation</span>
+                <span>Các Chính Sách</span>
               </a>
             </li>
             <li>

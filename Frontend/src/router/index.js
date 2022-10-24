@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-
+import store from "../store/index";
+import api from "../boot/axios";
 
 const routes = [
   {
@@ -9,6 +10,7 @@ const routes = [
       {
         path: 'user',
         component: () => import('../views/userAdmin/UserAdmin.vue'),
+      
       },
       {
         path: 'staff',
@@ -26,6 +28,7 @@ const routes = [
   },
   {
     path: '/login',
+    name: 'Login',
     component: () => import('../views/authAdmin/Login.vue'),
   },
   {
@@ -43,10 +46,26 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-router.beforeEach(async (to, from) => {
-  console.log(to);
-  console.log(from);
-  return true;
+router.beforeEach(async (to, from, next) => {
+  const token = store.getters['common/getTOKEN'];
+  if (token) {
+    next();
+  }
+  try {
+    const { data } = await api("/auth/api/check_login");
+    if (data) {
+      // Không có dữ liệu đẩy về login
+      store.dispatch('common/updateAdminUser', data.payload); 
+      next();
+    } else{
+      next("login");
+    }
+
+  }
+  catch (err) {
+    next("login");
+  }
+
 });
 
 export default router;
