@@ -19,12 +19,10 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     @Override
     public List<User> findAllByCondition(SearchUserRequest input) {
         String sql = "select * from user WHERE 1=1";
-        if (input.getEmail() != null && !input.getEmail().trim().equals("")) {
-            sql += " AND email like '%" + input.getEmail() + "%'";
+        if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'" ;
         }
-        if ((input.getName() != null && !input.getName().trim().equals(""))) {
-            sql += " AND full_name   like '%" + input.getName() + "%'";
-        }
+
         sql += " order by created_at desc";
 
         if (input.getPage() != null) {
@@ -37,12 +35,10 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     @Override
     public Integer getAllByCondition(SearchUserRequest input) {
         String sql = "select count(*) from user WHERE 1=1";
-        if (input.getEmail() != null && !input.getEmail().trim().equals("")) {
-            sql += " AND email like '%" + input.getEmail() + "%'";
+        if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'" ;
         }
-        if ((input.getName() != null && !input.getName().trim().equals(""))) {
-            sql += " AND full_name   like '%" + input.getName() + "%'";
-        }
+
         Query query = entityManager.createNativeQuery(sql);
         int count = ((Number) query.getSingleResult()).intValue();
         return count;

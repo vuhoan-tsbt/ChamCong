@@ -21,7 +21,6 @@ import java.time.temporal.ChronoUnit;
 
 @RequestMapping(value = "/auth/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
-@CrossOrigin("http://localhost:8082/")
 public class AuthAdminController {
 
     private final AuthAdminBusiness authAdminBusiness;
@@ -48,9 +47,19 @@ public class AuthAdminController {
     @GetMapping("/check_login")
     public RootResponse<AdminLoginResponse>  checkLogin(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
-        return null;
+        String token = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(JWTFilter.COOKIE_NAME)) {
+                    // lấy token  =  cookie.getValue();
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        String email = jwtProvider.getEmailFromJWT(token);
+        return RootResponse.success("",authAdminBusiness.checkLogin(email));
     }
-
     @DeleteMapping("/logout")
     public RootResponse<Object> logout(HttpServletResponse response){
         Cookie cookie = new Cookie(JWTFilter.COOKIE_NAME, "");

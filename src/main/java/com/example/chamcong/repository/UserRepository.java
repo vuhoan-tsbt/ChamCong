@@ -36,5 +36,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query("select user from User user where user.id = :id")
     Optional<User> findByIdPassword(int id);
 
+    @Query("select manager from Manager manager where manager.email = :email")
+    User getByEmailToken(String email);
+
 
 }

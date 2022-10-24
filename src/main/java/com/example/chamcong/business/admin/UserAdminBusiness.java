@@ -139,7 +139,7 @@ public class UserAdminBusiness extends BaseBusiness {
         }
         List<TimeKeeping> byUserId = timeKeepingRepository.findByIdUser(id);
         if(byUserId.size() >0){
-            throw new DataNotFoundException("Cần xóa thông tin về chấm công và chi tiết chấm công của nhân viên này trước");
+            throw new DataNotFoundException("Cần xóa thông tin về chấm công và chi tiết chấm công  trước và xóa thông tin về lương của nhân viên này ");
         }
         userRepository.delete(user);
         return new IdResponse(user.getId());
