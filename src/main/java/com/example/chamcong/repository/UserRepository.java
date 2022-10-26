@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query("select user from User user left join fetch user.role where user.email = :email")
     User getUserWithRoleByEmail(String email);
 
-    @Query("select manager from Manager manager where manager.email = :email")
+    @Query("select manager from User manager where manager.email = :email")
     Optional<User> getByEmail(String email);
 
     @Query("from User where email = :email and deleted=0")

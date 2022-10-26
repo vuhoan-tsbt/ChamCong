@@ -15,16 +15,13 @@
     <nav id="sidebar" class="sidebar-wrapper">
       <div class="sidebar-content">
          <div class="sidebar-brand">
-          <a href="#">Trang Quản Trị</a>
+          <a href="#">Danh Mục</a>
           <div id="close-sidebar">
             <i class="fas fa-times"></i>
           </div>
         </div> >
          <div class="sidebar-header">
-        <div class="user-pic">
-          <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-            alt="User picture">
-        </div>
+        
         <div class="user-info">
           <span class="user-name">
             <strong>Admin</strong>
@@ -47,32 +44,32 @@
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-tachometer-alt"></i>
-                <span>Danh Sách Nhân Viên</span>
+                <span><router-link to="/user"> Danh  Sách Nhân Viên</router-link></span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-shopping-cart"></i>
-                <span>Tin Tức</span>
+                <span><router-link to="/">Tin Tức</router-link></span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="far fa-gem"></i>
-                <span>Bảng Lương</span>
+                <span><router-link to="/">Bảng Lương</router-link></span>
               </a>
              
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-chart-line"></i>
-                <span>Các Phòng Ban</span>
+                <span><router-link to="/">Các Phòng Ban</router-link></span>
               </a>
             </li>
             <li class="sidebar-dropdown">
               <a href="#">
                 <i class="fa fa-globe"></i>
-                <span>Chức Vụ</span>
+                <span><router-link to="/">Chức Vụ</router-link></span>
               </a>
             </li>
             <li class="header-menu">
@@ -81,19 +78,19 @@
             <li>
               <a href="#">
                 <i class="fa fa-book"></i>
-                <span>Các Chính Sách</span>
+                <span><router-link to="/">Các Chính Sách</router-link></span>
               </a>
             </li>
             <li>
               <a href="#">
                 <i class="fa fa-calendar"></i>
-                <span>Calendar</span>
+                <span><router-link to="/">Quản Lý Chấm Công</router-link></span>
               </a>
             </li>
             <li>
               <a href="#">
                 <i class="fa fa-folder"></i>
-                <span>Examples</span>
+                <span><router-link to="/profile">Về Trang Cá Nhân</router-link></span>
               </a>
             </li>
             

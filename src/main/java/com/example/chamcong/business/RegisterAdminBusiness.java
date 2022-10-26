@@ -1,14 +1,12 @@
 package com.example.chamcong.business;
 
 import com.example.chamcong.entity.*;
-import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.response.IdResponse;
 import com.example.chamcong.model.request.AdminRegisterRequest;
 import com.example.chamcong.repository.ManagerRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.utils.HashUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -40,11 +38,6 @@ public class RegisterAdminBusiness extends BaseBusiness{
         }
         return out + number;
     }
-
-    public User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
 
     public IdResponse register(AdminRegisterRequest input) {
         Optional<Manager> optManager = managerRepository.getManagerByEmail(input.getEmail());

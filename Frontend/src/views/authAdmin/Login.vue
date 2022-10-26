@@ -111,7 +111,7 @@ export default defineComponent({
       if (result.code === 200) {
         console.log(result);
         store.dispatch('common/updateAdminUser', result.payload);
-        router.push("/user");
+        router.push("/profile");
       }
     };
     return {

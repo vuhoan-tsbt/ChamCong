@@ -1,20 +1,24 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "../store/index";
 import api from "../boot/axios";
-
+const writeRule =['ADMIN', 'STAFF', 'EDITER'];
 const routes = [
   {
     path: "/",
     component: () => import('../components/TheContainer.vue'),
     children: [
       {
-        path: 'user',
-        component: () => import('../views/userAdmin/UserAdmin.vue'),
-      
+        path: 'profile',
+        component :() => import('../views/user/Profile.vue'),
       },
       {
-        path: 'staff',
-        component: () => import('../views/staff/List.vue'),
+        path: 'user',
+        component: () => import('../views/userAdmin/UserAdmin.vue'),
+
+      },
+      {
+        path: 'editprofile',
+        component: () => import('../views/user/EditProfile.vue'),
       },
       {
         path: 'user/created',
@@ -31,6 +35,7 @@ const routes = [
     name: 'Login',
     component: () => import('../views/authAdmin/Login.vue'),
   },
+
   {
     path: "/about",
     name: "about",
@@ -55,9 +60,9 @@ router.beforeEach(async (to, from, next) => {
     const { data } = await api("/auth/api/check_login");
     if (data) {
       // Không có dữ liệu đẩy về login
-      store.dispatch('common/updateAdminUser', data.payload); 
+      store.dispatch('common/updateAdminUser', data.payload);
       next();
-    } else{
+    } else {
       next("login");
     }
 
@@ -67,5 +72,6 @@ router.beforeEach(async (to, from, next) => {
   }
 
 });
+
 
 export default router;

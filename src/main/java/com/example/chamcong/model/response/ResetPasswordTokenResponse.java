@@ -5,9 +5,9 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class LoginStaffResponse {
+public class ResetPasswordTokenResponse {
+
+    private String email;
 
     private String token;
-
-    private String refreshToken;
 }

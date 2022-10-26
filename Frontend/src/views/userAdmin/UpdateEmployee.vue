@@ -73,7 +73,7 @@ export default defineComponent({
         fullName: fullName.value,
         status: status.value,
       };
-      const result = await post(`/user/api/user/${id.value}`, dataUpdate);
+      const result = await post(`/admin/api/user/${id.value}`, dataUpdate);
       if (result.code === 200) {
         router.push("/user");
       }

@@ -1,51 +1,65 @@
-package com.example.chamcong.controller.admin;
+package com.example.chamcong.controller;
 
-import com.example.chamcong.business.admin.AuthAdminBusiness;
+import com.example.chamcong.business.AuthBusiness;
 import com.example.chamcong.filter.JWTFilter;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.request.AdminRegisterRequest;
-import com.example.chamcong.model.response.AdminLoginResponse;
+import com.example.chamcong.model.request.ForgotPasswordRequest;
+import com.example.chamcong.model.request.ResetPasswordTokenRequest;
+import com.example.chamcong.model.response.LoginResponse;
+import com.example.chamcong.model.response.ResetPasswordTokenResponse;
 import com.example.chamcong.security.JWTProvider;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
 @RequestMapping(value = "/auth/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
-public class AuthAdminController {
+public class AuthController {
 
-    private final AuthAdminBusiness authAdminBusiness;
+    private final AuthBusiness authBusiness;
     private final JWTProvider jwtProvider;
-    private final JWTFilter jwtFilter;
 
-    public AuthAdminController(AuthAdminBusiness authAdminBusiness, JWTProvider jwtProvider, JWTFilter jwtFilter) {
-        this.authAdminBusiness = authAdminBusiness;
+
+    public AuthController(AuthBusiness authBusiness, JWTProvider jwtProvider) {
+        this.authBusiness = authBusiness;
         this.jwtProvider = jwtProvider;
-        this.jwtFilter = jwtFilter;
+
     }
 
     @PostMapping("/login")
-    public RootResponse<AdminLoginResponse> login(@RequestBody @Valid AdminRegisterRequest input, HttpServletResponse response) {
-        AdminLoginResponse body  = authAdminBusiness.login(input);
+    public RootResponse<LoginResponse> login(@RequestBody @Valid AdminRegisterRequest input, HttpServletResponse response) {
+        LoginResponse body  = authBusiness.login(input);
         Cookie cookie = new Cookie(JWTFilter.COOKIE_NAME, body.getToken());
         cookie.setHttpOnly(true);
         cookie.setSecure(false);
         cookie.setMaxAge((int) Duration.of(1, ChronoUnit.DAYS).toSeconds());
         cookie.setPath("/");
         response.addCookie(cookie);
-        return RootResponse.success("Login manager success", body);
+        return RootResponse.success("Đăng Nhập Thành Công", body);
     }
+    @PostMapping("/forgot_password")
+    public RootResponse<String> sendUrlResetPassword(@RequestBody @Valid ForgotPasswordRequest input) throws MessagingException, UnsupportedEncodingException {
+        authBusiness.sendUrlResetPassword(input.getEmail());
+        return RootResponse.success("Thông tin đã được gửi đến gmail của bạn", null);
+    }
+
+    @PostMapping("/reset_password")
+    public RootResponse<ResetPasswordTokenResponse> resetPassword(@RequestBody @Valid ResetPasswordTokenRequest input) {
+        authBusiness.resetPassword(input);
+        return RootResponse.success("Đổi Mật khẩu thành công, bạn hãy đăng nhập lại", null);
+    }
+
     @GetMapping("/check_login")
-    public RootResponse<AdminLoginResponse>  checkLogin(HttpServletRequest request){
+    public RootResponse<LoginResponse>  checkLogin(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
         String token = null;
         if (cookies != null) {
@@ -58,7 +72,7 @@ public class AuthAdminController {
             }
         }
         String email = jwtProvider.getEmailFromJWT(token);
-        return RootResponse.success("",authAdminBusiness.checkLogin(email));
+        return RootResponse.success("", authBusiness.checkLogin(email));
     }
     @DeleteMapping("/logout")
     public RootResponse<Object> logout(HttpServletResponse response){

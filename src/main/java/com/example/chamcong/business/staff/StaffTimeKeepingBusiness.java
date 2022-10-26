@@ -53,7 +53,6 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
                 .setEntryTime(LocalDateTime.now()));
         return new TimeKeepingEntryResponse(user.getId(), radixCode);
     }
-
     public TimeKeepingOutResponse timeOutKeeping() {
         User user = getCurrentUser();
         List<TimeKeeping> timeKeeping = timeKeepingRepository.getByUserId(user);

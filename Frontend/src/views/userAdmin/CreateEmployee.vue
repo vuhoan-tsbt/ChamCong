@@ -95,7 +95,7 @@ export default defineComponent({
         positionId: positionId.value,
         role: role.value,
       };
-      const result = await post("/user/api/create-employee", dataCreate);
+      const result = await post("/admin/api/create-employee", dataCreate);
       if (result.code === 200) {
         router.push("/user");
       }

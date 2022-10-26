@@ -28,12 +28,9 @@ public class DotInformationController {
 
         return RootResponse.success("Danh sách", dotInformationBusiness.dotInformation(input));
     }
-
-
     @PostMapping("/salary")
     public RootResponse<SalaryEmployeeResponse> salary(@RequestBody @Valid SalaryEmployeeRequest input) {
         return RootResponse.success("Lương của nhân viên là ", dotInformationBusiness.salary(input));
 
     }
-
 }

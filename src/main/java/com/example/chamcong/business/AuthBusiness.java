@@ -1,14 +1,12 @@
-package com.example.chamcong.business.staff;
+package com.example.chamcong.business;
 
-import com.example.chamcong.business.BaseBusiness;
-import com.example.chamcong.entity.Employee;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.entity.UserLoginHistory;
 import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
-import com.example.chamcong.model.request.LoginStaffRequest;
-import com.example.chamcong.model.request.StaffResetPasswordTokenRequest;
-import com.example.chamcong.model.response.LoginStaffResponse;
+import com.example.chamcong.model.request.AdminRegisterRequest;
+import com.example.chamcong.model.request.ResetPasswordTokenRequest;
+import com.example.chamcong.model.response.LoginResponse;
 import com.example.chamcong.repository.UserLoginHistoryRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.security.JWTProvider;
@@ -22,54 +20,65 @@ import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @Service
-public class AuthStaffBusiness extends BaseBusiness {
-
+public class AuthBusiness extends BaseBusiness {
     private final UserRepository userRepository;
-    private final JWTProvider jwtProvider;
+
+    private final HashUtils hashUtils;
     private final StringUtils stringUtils;
     private final UserLoginHistoryRepository userLoginHistoryRepository;
-    private final HashUtils hashUtils;
+    private final JWTProvider jwtProvider;
     private final MailService mailService;
 
-    public AuthStaffBusiness(UserRepository userRepository, JWTProvider jwtProvider, StringUtils stringUtils, UserLoginHistoryRepository userLoginHistoryRepository, HashUtils hashUtils, MailService mailService) {
+    public AuthBusiness(UserRepository userRepository, HashUtils hashUtils, StringUtils stringUtils, UserLoginHistoryRepository userLoginHistoryRepository, JWTProvider jwtProvider, MailService mailService) {
         this.userRepository = userRepository;
-        this.jwtProvider = jwtProvider;
+        this.hashUtils = hashUtils;
         this.stringUtils = stringUtils;
         this.userLoginHistoryRepository = userLoginHistoryRepository;
-        this.hashUtils = hashUtils;
+        this.jwtProvider = jwtProvider;
+
         this.mailService = mailService;
     }
 
-    public LoginStaffResponse loginStaff(LoginStaffRequest input) {
-        Optional<Employee> optEmployee = userRepository.getByStaffCode(input.getStaffCode());
-        if (optEmployee.isEmpty()) {
-            throw new DataNotFoundException("Tài Khoản Không tồn tại");
+    public LoginResponse login(AdminRegisterRequest input) {
+        Optional<User> optUser = userRepository.getByEmail(input.getEmail());
+        if (optUser.isEmpty()) {
+            throw new DataNotFoundException("Tài Khoản Không Tồn Tại");
         } else {
-            Employee employee = optEmployee.get();
-            if (!hashUtils.check(input.getPassword(), employee.getPassword())) {
+            User user = optUser.get();
+            if (!hashUtils.check(input.getPassword(), user.getPassword())) {
                 throw new DataNotFoundException("Mật khẩu không đúng");
             }
-            if (employee.getStatus().equals(AccStatusEnum.CREATED.getValue())) {
+            if (user.getStatus().equals(AccStatusEnum.CREATED.getValue())) {
                 throw new DataNotFoundException("Tài Khoản của bạn đang bị khóa, vui lòng liên hệ quản trị viên");
             }
-            if (employee.getStatus().equals(AccStatusEnum.BANNED.getValue())) {
+            if (user.getStatus().equals(AccStatusEnum.BANNED.getValue())) {
                 throw new DataNotFoundException("Tài khoản của bạn đã bị cấm");
             }
-            LoginStaffResponse response = new LoginStaffResponse()
-                    .setToken(jwtProvider.generateToken(employee))
+            LoginResponse loginResponse = new LoginResponse()
+                    .setToken(jwtProvider.generateToken(user))
                     .setRefreshToken(stringUtils.randomString());
             userLoginHistoryRepository.save(new UserLoginHistory()
-                    .setUser(employee)
-                    .setToken(response.getToken())
-                    .setRefreshToken(response.getRefreshToken()));
-            return response;
+                    .setUser(user)
+                    .setToken(loginResponse.getToken())
+                    .setRefreshToken(loginResponse.getRefreshToken()));
+            return loginResponse;
         }
+    }
+
+    public LoginResponse checkLogin(String email) {
+        User user = userRepository.getByEmailToken(email);
+        if (user == null) {
+            throw new DataNotFoundException(" Phiên đăng nhập đã hết hạn.Vui lòng đăng nhập lại");
+        }
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(jwtProvider.generateToken(user));
+        return loginResponse;
     }
 
     public void sendUrlResetPassword(String email) throws MessagingException, UnsupportedEncodingException {
         Optional<User> opUser = userRepository.findByEmail(email);
         if (opUser.isEmpty()) {
-            throw new DataNotFoundException("User can't found.");
+            throw new DataNotFoundException("Người dùng không tồn tại");
         }
         User user = opUser.get();
         // send mail
@@ -79,7 +88,7 @@ public class AuthStaffBusiness extends BaseBusiness {
         mailService.sendMail(String.format("http://locahost:8081/%s/%s", email, token), email);
     }
 
-    public void resetPassword(StaffResetPasswordTokenRequest input) {
+    public void resetPassword(ResetPasswordTokenRequest input) {
         Optional<User> optUser = userRepository.findByEmail(input.getEmail());
         if (optUser.isEmpty()) {
             throw new DataNotFoundException("Người Dùng không tồn tại");

@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button type="button" class="btn btn-info">Logout</button>
+    <button type="button" class="btn btn-info" @click="logout">Logout</button>
     <button
       class="navbar-toggler"
       type="button"
@@ -43,26 +43,16 @@
         </li>
         
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input
-          class="form-control mr-sm-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
-      </form>
     </div>
   </nav>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+
 
 export default defineComponent({
   setup() {
-    return {};
-  },
+    
+  }
 });
 </script>

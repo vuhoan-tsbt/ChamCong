@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Accessors(chain = true)
-public class StaffUpdateInformationRequest {
+public class UpdateInformationRequest {
 
 
     @NotBlank(message = Messages.MES006)
@@ -25,8 +25,6 @@ public class StaffUpdateInformationRequest {
     @Size(min = 5, max = 30, message = Messages.MES012)
     private String address;
 
-    @NotBlank(message = Messages.MES004)
-    @Size(min =8, max = 100, message = Messages.MES002)
-    private String password;
+
 
 }

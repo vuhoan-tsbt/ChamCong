@@ -1,10 +1,11 @@
-package com.example.chamcong.business.staff;
+package com.example.chamcong.business;
 
 import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.ChainPasswordRequest;
-import com.example.chamcong.model.request.StaffUpdateInformationRequest;
+import com.example.chamcong.model.request.UpdateInformationRequest;
+import com.example.chamcong.model.response.ProfileUserResponse;
 import com.example.chamcong.model.response.IdResponse;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.utils.HashUtils;
@@ -14,13 +15,14 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class StaffBusiness extends BaseBusiness {
+public class UserBusiness extends BaseBusiness {
 
     private final UserRepository userRepository;
 
     private final HashUtils hashUtils;
 
-    public StaffBusiness(UserRepository userRepository,HashUtils hashUtils) {
+
+    public UserBusiness(UserRepository userRepository, HashUtils hashUtils) {
         this.userRepository = userRepository;
         this.hashUtils = hashUtils;
     }
@@ -29,17 +31,27 @@ public class StaffBusiness extends BaseBusiness {
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+    public ProfileUserResponse profileEmployee(){
+        User user = getCurrentUser();
+        ProfileUserResponse response = new ProfileUserResponse();
+        response.setFullName(user.getFullName());
+        response.setEmail(user.getEmail());
+        response.setStaffCode(user.getStaffCode());
+        response.setAddress(user.getAddress());
+        response.setDateOfBirth(user.getDateOfBirth());
+        response.setDepartment(user.getDepartment().getDepartment());
+        response.setPosition((user.getPosition().getPosition()));
+        return response;
+    }
 
-    public IdResponse staffUpdateInformation(StaffUpdateInformationRequest input) {
+    public IdResponse staffUpdateInformation(UpdateInformationRequest input) {
         User user = getCurrentUser();
         user.setFullName(input.getFullName());
         user.setDateOfBirth(input.getDateOfBirth());
         user.setAddress(input.getAddress());
-        user.setPassword(hashUtils.hash(input.getPassword()));
         userRepository.save(user);
         return new IdResponse(user.getId());
     }
-
     public IdResponse chainPassword(ChainPasswordRequest input) {
         User userLogin = getCurrentUser();
         Optional<User> optUser = userRepository.findByIdPassword(userLogin.getId());

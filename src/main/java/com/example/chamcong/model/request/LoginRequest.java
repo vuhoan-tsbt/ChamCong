@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Data
 @Accessors(chain = true)
 @JsonIgnoreProperties(value = {"password"}, allowSetters = true)
-public class AdminLoginRequest {
+public class LoginRequest {
     @NotBlank(message = Messages.MES005)
     @Pattern(regexp = "^(.+)@(\\S+)$", message = Messages.MES001)
     @Size(min = 12, max = 100, message = Messages.MES010)

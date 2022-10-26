@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping(value = "/timekeeping/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
-@PreAuthorize("hasAnyAuthority('STAFF')")
+@PreAuthorize("hasAnyAuthority('STAFF','EDITER')")
 public class StaffTimeKeepingController {
     private final StaffTimeKeepingBusiness staffTimeKeepingBusiness;
 

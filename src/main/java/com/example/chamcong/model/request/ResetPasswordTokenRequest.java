@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Accessors(chain = true)
-public class StaffResetPasswordTokenRequest {
+public class ResetPasswordTokenRequest {
 
     @NotBlank(message = Messages.MES005)
     @Pattern(regexp = "^(.+)@(\\S+)$", message = Messages.MES001)
