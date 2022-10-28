@@ -1,9 +1,9 @@
 package com.example.chamcong.entity;
 
-import com.example.chamcong.entity.User;
+
 import com.example.chamcong.entity.base.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
@@ -15,8 +15,9 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@Where(clause = "deleted = false")
-@SQLDelete(sql = "update user_login_history set deleted = true where id = ?")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserLoginHistory extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,8 @@ public class UserLoginHistory extends BaseEntity {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     @Column(nullable = false)

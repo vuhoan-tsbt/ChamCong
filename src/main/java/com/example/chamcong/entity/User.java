@@ -56,6 +56,10 @@ public class User extends BaseUser {
     @JoinColumn(name = "position_id")
     private Position position;
 
+    @OneToMany
+    @JoinColumn(name="user_id")
+    private List<UserLoginHistory> userLoginHistory;
+
 
 
     @Override

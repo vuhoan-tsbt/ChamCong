@@ -130,11 +130,11 @@ public class UserAdminBusiness extends BaseBusiness {
         if (user == null) {
             throw new DataNotFoundException("User Not Found");
         }
-        List<UserLoginHistory> histories = userLoginHistoryRepository.finAllUserLoginHistory(id);
-        if(histories == null){
+        List<UserLoginHistory> loginHistory = userLoginHistoryRepository.findAllUserLoginHistory(id);
+        if(loginHistory == null){
             throw new DataNotFoundException("Không có lịch sử đăng nhập");
         }
-        for(UserLoginHistory userLoginHistory :histories){
+        for(UserLoginHistory userLoginHistory :loginHistory){
             userLoginHistoryRepository.delete(userLoginHistory);
         }
         List<TimeKeeping> byUserId = timeKeepingRepository.findByIdUser(id);

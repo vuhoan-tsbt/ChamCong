@@ -13,7 +13,7 @@ public class CustomerUserLoginHistoryRepositoryImpl implements CustomerUserLogin
     @PersistenceContext
     EntityManager entityManager;
     @Override
-    public List<UserLoginHistory> finAllUserLoginHistory(Integer id) {
+    public List<UserLoginHistory> findAllUserLoginHistory(Integer id) {
         String sql = " select * from user_login_history where user_id = " + id;
 
         return entityManager.createNativeQuery(sql, UserLoginHistory.class).getResultList();
