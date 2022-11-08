@@ -39,6 +39,7 @@ public class UserBusiness extends BaseBusiness {
         response.setStaffCode(user.getStaffCode());
         response.setAddress(user.getAddress());
         response.setDateOfBirth(user.getDateOfBirth());
+        response.setPhone(user.getPhone());
         response.setDepartment(user.getDepartment().getDepartment());
         response.setPosition((user.getPosition().getPosition()));
         return response;
@@ -49,6 +50,7 @@ public class UserBusiness extends BaseBusiness {
         user.setFullName(input.getFullName());
         user.setDateOfBirth(input.getDateOfBirth());
         user.setAddress(input.getAddress());
+        user.setPhone(input.getPhone());
         userRepository.save(user);
         return new IdResponse(user.getId());
     }

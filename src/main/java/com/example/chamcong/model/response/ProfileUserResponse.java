@@ -23,5 +23,7 @@ public class ProfileUserResponse {
 
     private String dateOfBirth;
 
+    private String phone;
+
     private String staffCode;
 }

@@ -25,6 +25,10 @@ public class UpdateInformationRequest {
     @Size(min = 5, max = 30, message = Messages.MES012)
     private String address;
 
+    @NotBlank(message = Messages.MES023)
+    @Size(min =10, max =10, message = Messages.MES024)
+    private String phone;
+
 
 
 }

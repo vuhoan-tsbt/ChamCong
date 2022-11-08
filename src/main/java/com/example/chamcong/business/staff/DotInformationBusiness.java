@@ -17,6 +17,7 @@ import com.example.chamcong.repository.*;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,10 +86,13 @@ public class DotInformationBusiness extends BaseBusiness {
         actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage();
 
         Salary salary = new Salary();
+        Calendar calendar = Calendar.getInstance();
+        int months = calendar.get(Calendar.MONTH ) + 1;
         salary.setSalaryForOneHourWork(salaryHourly);
         salary.setTotalWorkingHours(input.getTotalWorkingHours());
         salary.setTotalSalary(actualSalary);
         salary.setUser(user);
+        salary.setMonths(LocalDateTime.parse(String.valueOf(months)));
         salaryRepository.save(salary);
 
         SalaryEmployeeResponse salaryEmployeeResponse = new SalaryEmployeeResponse();

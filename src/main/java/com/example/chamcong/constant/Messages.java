@@ -42,4 +42,10 @@ public class Messages {
     public static final String MES020 = "Chỉ được nhập 0 -1 -2";
 
     public static final String MES021 = "Trạng thái không được bỏ trống";
+
+    public static final String MES022 = "Tên phòng ban không được bỏ trống";
+
+    public static final String MES023 = "Số điện thoại không được bỏ trống";
+
+    public static final String MES024 = "Số điện thoại phải có 10 số";
 }

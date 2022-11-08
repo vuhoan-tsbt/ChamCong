@@ -12,8 +12,9 @@ public interface CustomerUserRepository {
 
     Integer getAllByCondition(SearchUserRequest input);
 
-
     User getSalary(String staffCode);
+
+    List<User> getAllUserDepartment(Integer id);
 
 
 }

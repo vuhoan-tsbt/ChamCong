@@ -1,8 +1,6 @@
 package com.example.chamcong.enumtation;
 
 
-
-
 public enum AccStatusEnum {
     CREATED("CREATED",0),
     ACTIVATED("ACTIVATED",1),

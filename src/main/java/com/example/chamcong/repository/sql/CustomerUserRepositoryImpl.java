@@ -53,5 +53,13 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     }
 
+    @Override
+    public List<User> getAllUserDepartment(Integer id) {
+
+        String sql = "select * from user where department_id = " + id;
+
+        return entityManager.createNativeQuery(sql, User.class).getResultList();
+    }
+
 
 }

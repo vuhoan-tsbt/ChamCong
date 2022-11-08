@@ -6,6 +6,8 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
@@ -27,8 +29,12 @@ public class Salary {
     @Column(name="total_salary")
     private long totalSalary;
 
-    @OneToOne
+    @ManyToOne
     @JsonIgnore
     @JoinColumn(name="user_id")
     private User user;
+
+    private LocalDateTime months;
+
+
 }

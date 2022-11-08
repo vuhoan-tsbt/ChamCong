@@ -25,7 +25,6 @@ public class DotInformationController {
 
     @GetMapping("/dot_information")
     public RootResponse<DotInformationResponse> dotInformation(@ModelAttribute DotInformationRequest input) {
-
         return RootResponse.success("Danh sách", dotInformationBusiness.dotInformation(input));
     }
     @PostMapping("/salary")

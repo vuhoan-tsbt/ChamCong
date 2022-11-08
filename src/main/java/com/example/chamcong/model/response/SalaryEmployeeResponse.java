@@ -12,4 +12,6 @@ public class SalaryEmployeeResponse {
     private String staffCode;
 
     private long actualGrossSalary;
+
+    private String months;
 }

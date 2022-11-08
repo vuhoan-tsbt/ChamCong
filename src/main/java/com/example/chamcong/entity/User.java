@@ -46,6 +46,8 @@ public class User extends BaseUser {
 
     private String address;
 
+    private String phone;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "department_id")

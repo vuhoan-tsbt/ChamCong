@@ -6,6 +6,7 @@ import com.example.chamcong.model.response.TimeKeepingOutResponse;
 import com.example.chamcong.model.response.TimeKeepingEntryResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,7 @@ public class StaffTimeKeepingController {
     public RootResponse<TimeKeepingOutResponse> timeOutKeeping(){
         return RootResponse.success("Tạm Biệt Bạn", staffTimeKeepingBusiness.timeOutKeeping());
     }
+
 
 
 

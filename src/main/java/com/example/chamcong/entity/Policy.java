@@ -7,24 +7,22 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Data
 @Accessors(chain = true)
-@Table(name = "department")
+@Table(name = "policy")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Department {
+public class Policy {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "increment", strategy = "increment")
     private int id;
 
-    private String department;
+    @Column(name ="name_policy")
+    private String namePolicy;
 
-
-
-
-
+    @Column(name="content_policy")
+    private String contentPolicy;
 }
