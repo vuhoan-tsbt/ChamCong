@@ -48,4 +48,13 @@ public class Messages {
     public static final String MES023 = "Số điện thoại không được bỏ trống";
 
     public static final String MES024 = "Số điện thoại phải có 10 số";
+
+    public static final String MES025 = "Phụ cấp không được bỏ trống";
+
+    public static final String MES026 = "Tên chức vụ không được bỏ trống";
+
+    public static final String MES027 = "Mức lương không được bỏ trống";
+
+    public static final String MES028 = "Bậc lương không được bỏ trống";
+
 }

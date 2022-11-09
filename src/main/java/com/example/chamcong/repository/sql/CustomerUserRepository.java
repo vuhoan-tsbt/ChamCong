@@ -16,5 +16,7 @@ public interface CustomerUserRepository {
 
     List<User> getAllUserDepartment(Integer id);
 
+    List<User> getAllUserPosition(Integer id);
+
 
 }
