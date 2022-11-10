@@ -6,14 +6,18 @@ import com.example.chamcong.entity.Salary;
 import com.example.chamcong.entity.TimeKeepingDetails;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.exception.data.DataNotFoundException;
+import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.request.DotInformationRequest;
+import com.example.chamcong.model.request.ListSalaryEmployeeRequest;
 import com.example.chamcong.model.request.SalaryEmployeeRequest;
 import com.example.chamcong.model.response.DotInformationResponse;
+import com.example.chamcong.model.response.ListSalaryEmployeeResponse;
 import com.example.chamcong.model.response.SalaryEmployeeResponse;
 import com.example.chamcong.repository.TimeKeepingDetailsRepository;
 import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.repository.*;
+import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 
@@ -23,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DotInformationBusiness extends BaseBusiness {
@@ -32,15 +37,17 @@ public class DotInformationBusiness extends BaseBusiness {
     private final UserRepository userRepository;
     private final PositionRepository positionRepository;
     private final SalaryRepository salaryRepository;
+    private final Mapper mapper;
 
 
-    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository, UserRepository userRepository, PositionRepository positionRepository, SalaryRepository salaryRepository) {
+    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository, UserRepository userRepository, PositionRepository positionRepository, SalaryRepository salaryRepository, Mapper mapper) {
         this.timeKeepingRepository = timeKeepingRepository;
         this.timeKeepingDetailsRepository = timeKeepingDetailsRepository;
         this.userRepository = userRepository;
         this.positionRepository = positionRepository;
         this.salaryRepository = salaryRepository;
 
+        this.mapper = mapper;
     }
 
     public DotInformationResponse dotInformation(DotInformationRequest input) {
@@ -86,13 +93,11 @@ public class DotInformationBusiness extends BaseBusiness {
         actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage();
 
         Salary salary = new Salary();
-        Calendar calendar = Calendar.getInstance();
-        int months = calendar.get(Calendar.MONTH ) + 1;
         salary.setSalaryForOneHourWork(salaryHourly);
         salary.setTotalWorkingHours(input.getTotalWorkingHours());
         salary.setTotalSalary(actualSalary);
         salary.setUser(user);
-        salary.setMonths(LocalDateTime.parse(String.valueOf(months)));
+        salary.setMonths(LocalDateTime.now());
         salaryRepository.save(salary);
 
         SalaryEmployeeResponse salaryEmployeeResponse = new SalaryEmployeeResponse();
@@ -100,5 +105,19 @@ public class DotInformationBusiness extends BaseBusiness {
         salaryEmployeeResponse.setStaffCode(input.getStaffCode());
         salaryEmployeeResponse.setActualGrossSalary(actualSalary);
         return salaryEmployeeResponse;
+    }
+
+    public PageResponse<ListSalaryEmployeeResponse> listSalaryEmployee(ListSalaryEmployeeRequest input) {
+        List<Salary> salaryList = salaryRepository.getAllSalaryUser(input);
+        int totalElements = salaryRepository.findAllSalaryUser(input);
+        int totalPages = Math.max(1, (int) Math.ceil((double) totalElements / input.getSize()));
+        List<ListSalaryEmployeeResponse> responses = salaryList.stream().map(salary -> {
+            ListSalaryEmployeeResponse response = new ListSalaryEmployeeResponse();
+            response.setFullName(salary.getUser().getFullName());
+            response.setStaffCode(salary.getUser().getStaffCode());
+            response.setSalary(salary.getTotalSalary());
+            return response;
+        }).collect(Collectors.toList());
+        return PageResponse.create(totalPages,totalElements,responses);
     }
 }

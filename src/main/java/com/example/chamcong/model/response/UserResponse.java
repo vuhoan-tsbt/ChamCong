@@ -19,6 +19,8 @@ public class UserResponse {
 
     private String staffCode;
 
+    private String phone;
+
     private String dateOfBirth;
 
     private String address;

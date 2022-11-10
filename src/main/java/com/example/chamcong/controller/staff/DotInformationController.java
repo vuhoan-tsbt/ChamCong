@@ -1,10 +1,13 @@
 package com.example.chamcong.controller.staff;
 
 import com.example.chamcong.business.staff.DotInformationBusiness;
+import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.request.DotInformationRequest;
+import com.example.chamcong.model.request.ListSalaryEmployeeRequest;
 import com.example.chamcong.model.request.SalaryEmployeeRequest;
 import com.example.chamcong.model.response.DotInformationResponse;
+import com.example.chamcong.model.response.ListSalaryEmployeeResponse;
 import com.example.chamcong.model.response.SalaryEmployeeResponse;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,6 +33,11 @@ public class DotInformationController {
     @PostMapping("/salary")
     public RootResponse<SalaryEmployeeResponse> salary(@RequestBody @Valid SalaryEmployeeRequest input) {
         return RootResponse.success("Lương của nhân viên là ", dotInformationBusiness.salary(input));
-
     }
+    @GetMapping("/list-salary")
+    public RootResponse<PageResponse<ListSalaryEmployeeResponse>> listSalaryEmployee(@ModelAttribute @Valid ListSalaryEmployeeRequest input){
+        return RootResponse.success("Danh sách lương nhân viên",dotInformationBusiness.listSalaryEmployee(input));
+    }
+
+
 }

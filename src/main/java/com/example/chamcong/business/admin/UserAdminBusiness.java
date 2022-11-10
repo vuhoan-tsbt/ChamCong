@@ -81,10 +81,12 @@ public class UserAdminBusiness extends BaseBusiness {
             userResponse.setEmail(user.getEmail());
             userResponse.setStaffCode(user.getStaffCode());
             userResponse.setDateOfBirth(user.getDateOfBirth());
+            userResponse.setPhone(user.getPhone());
             userResponse.setCreatedAt(String.valueOf(user.getCreatedAt()));
             userResponse.setAddress(user.getAddress());
             userResponse.setDepartment(user.getDepartment().getDepartment());
             userResponse.setPosition(user.getPosition().getPosition());
+
             return userResponse;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages, totalElements, userResponses);

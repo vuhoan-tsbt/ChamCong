@@ -25,7 +25,7 @@ public class Messages {
 
     public static final String MES012 = "Địa chỉ phải từ 5 - 30 ký tự";
 
-    public static final String MES013 ="Mã nhân viên không được bỏ chống";
+    public static final String MES013 = "Mã nhân viên không được bỏ chống";
 
     public static final String MES014 = "Mã token không được bỏ trống";
 
@@ -56,5 +56,11 @@ public class Messages {
     public static final String MES027 = "Mức lương không được bỏ trống";
 
     public static final String MES028 = "Bậc lương không được bỏ trống";
+
+    public static final String MES029 = "Tên chính sách không được bỏ trống";
+
+    public static final String MES030 = "Nội dung không được bỏ trống";
+
+    public static final String MES031 = "tên tin tức không được bỏ trống";
 
 }

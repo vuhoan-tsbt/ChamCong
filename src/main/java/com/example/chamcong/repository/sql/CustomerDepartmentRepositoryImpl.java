@@ -18,7 +18,7 @@ public class CustomerDepartmentRepositoryImpl implements CustomerDepartmentRepos
     @Override
     public List<Department> findAllDepartment(DepartmentRequest input) {
         String sql = "select * from department where 1=1 ";
-        if (input.getDepartment() != null && input.getDepartment().trim().equals("")) {
+        if (input.getDepartment() != null && !input.getDepartment().trim().equals("")) {
             sql += " and department = " + input.getDepartment();
         }
         if (input.getPage() != null) {
@@ -31,7 +31,7 @@ public class CustomerDepartmentRepositoryImpl implements CustomerDepartmentRepos
     @Override
     public Integer getAllDepartment(DepartmentRequest input) {
         String sql = "select count(*) from department where 1=1";
-        if (input.getDepartment() != null && input.getDepartment().trim().equals("")) {
+        if (input.getDepartment() != null && !input.getDepartment().trim().equals("")) {
             sql += " and department = " + input.getDepartment();
         }
         Query query = entityManager.createNativeQuery(sql);

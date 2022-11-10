@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Accessors(chain = true)
@@ -20,12 +21,12 @@ public class SalaryEmployeeRequest {
     @NotBlank(message = Messages.MES018)
     private String staffCode;
 
-    @NotBlank(message = Messages.MES019)
+    @NotNull(message = Messages.MES019)
     private Long totalNumberOfWorkingDaysInTheMonth;
 
-    @NotBlank(message = Messages.MES019)
+    @NotNull(message = Messages.MES019)
     private Long numberOfHoursWorkedInADay;
 
-    @NotBlank(message = Messages.MES019)
+    @NotNull(message = Messages.MES019)
     private Long totalWorkingHours;
 }
