@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserBusiness extends BaseBusiness {
+public class
+UserBusiness extends BaseBusiness {
 
     private final UserRepository userRepository;
 
