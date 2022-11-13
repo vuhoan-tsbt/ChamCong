@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Integer> {
+
     @Query("select role from UserRole  role where role.id = :id")
     UserRole getById(Integer id);
 }

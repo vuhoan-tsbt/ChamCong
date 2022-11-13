@@ -45,6 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/api/reset_password").permitAll()
                 .antMatchers("/auth/api/forgot_password").permitAll()
                 .antMatchers("/auth/api/check_login").permitAll()
+                .antMatchers("/auth/api/forgot-otp").permitAll()
+                .antMatchers("/auth/api/reset-otp").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .and().logout().deleteCookies(JWTFilter.COOKIE_NAME)

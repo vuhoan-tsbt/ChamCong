@@ -1,18 +1,28 @@
 package com.example.chamcong.business;
 
-import com.example.chamcong.business.BaseBusiness;
+import com.example.chamcong.dto.DepartmentDTO;
+import com.example.chamcong.dto.NewsDTO;
+import com.example.chamcong.dto.PagingDTO;
+import com.example.chamcong.dto.UserDTO;
+import com.example.chamcong.entity.Department;
+import com.example.chamcong.entity.News;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.exception.data.DataNotFoundException;
+import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.request.ChainPasswordRequest;
 import com.example.chamcong.model.request.UpdateInformationRequest;
 import com.example.chamcong.model.response.ProfileUserResponse;
 import com.example.chamcong.model.response.IdResponse;
+import com.example.chamcong.repository.DepartmentRepository;
+import com.example.chamcong.repository.NewsRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.utils.HashUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class
@@ -22,10 +32,16 @@ UserBusiness extends BaseBusiness {
 
     private final HashUtils hashUtils;
 
+    private final DepartmentRepository departmentRepository;
 
-    public UserBusiness(UserRepository userRepository, HashUtils hashUtils) {
+    private final NewsRepository newsRepository;
+
+
+    public UserBusiness(UserRepository userRepository, HashUtils hashUtils, DepartmentRepository departmentRepository, NewsRepository newsRepository) {
         this.userRepository = userRepository;
         this.hashUtils = hashUtils;
+        this.departmentRepository = departmentRepository;
+        this.newsRepository = newsRepository;
     }
 
 
@@ -69,5 +85,35 @@ UserBusiness extends BaseBusiness {
 
     }
 
+    public DepartmentDTO department() {
+        Department department = departmentRepository.getAllByDepartment();
+        DepartmentDTO dto = new DepartmentDTO();
+        dto.setDepartment(department.getDepartment());
+        return dto;
+    }
 
+    public NewsDTO news() {
+        News news = newsRepository.getAllByNews();
+        NewsDTO newsDTO = new NewsDTO();
+        newsDTO.setNameNews(news.getTypeOfNews());
+        newsDTO.setContent(news.getContent());
+        return newsDTO;
+    }
+
+    public PageResponse<UserDTO> listStaff(PagingDTO input) {
+        List<User> users  = userRepository.findUser(input);
+        int totalElements = userRepository.getUser(input);
+        int totalPages = Math.max(1, (int) Math.ceil((double) totalElements / input.getSize()));
+        List<UserDTO> list = users.stream().map(user -> {
+            UserDTO dto = new UserDTO();
+            dto.setName(user.getFullName());
+            dto.setDepartment(user.getDepartment().getDepartment());
+            dto.setPosition(user.getPosition().getPosition());
+            dto.setDateOfBirth(user.getDateOfBirth());
+            dto.setAvatar(user.getAvatar());
+            dto.setAddress(user.getAddress());
+            return dto;
+        }).collect(Collectors.toList());
+        return PageResponse.create(totalPages, totalElements, list);
+    }
 }

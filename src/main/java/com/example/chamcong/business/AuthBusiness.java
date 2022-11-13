@@ -1,22 +1,31 @@
 package com.example.chamcong.business;
 
+import com.example.chamcong.entity.NumberOTP;
+import com.example.chamcong.entity.OTP;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.entity.UserLoginHistory;
 import com.example.chamcong.enumtation.AccStatusEnum;
+import com.example.chamcong.enumtation.OTPTypeEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.AdminRegisterRequest;
+import com.example.chamcong.model.request.ForgotPasswordOTPRequest;
+import com.example.chamcong.model.request.ResetPasswordOTPRequest;
 import com.example.chamcong.model.request.ResetPasswordTokenRequest;
+import com.example.chamcong.model.response.IdResponse;
 import com.example.chamcong.model.response.LoginResponse;
+import com.example.chamcong.repository.OTPRepository;
 import com.example.chamcong.repository.UserLoginHistoryRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.security.JWTProvider;
 import com.example.chamcong.service.MailService;
+import com.example.chamcong.service.SmsService;
 import com.example.chamcong.utils.HashUtils;
 import com.example.chamcong.utils.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,15 +37,25 @@ public class AuthBusiness extends BaseBusiness {
     private final UserLoginHistoryRepository userLoginHistoryRepository;
     private final JWTProvider jwtProvider;
     private final MailService mailService;
+    private final OTPRepository otpRepository;
+    private final SmsService smsService;
 
-    public AuthBusiness(UserRepository userRepository, HashUtils hashUtils, StringUtils stringUtils, UserLoginHistoryRepository userLoginHistoryRepository, JWTProvider jwtProvider, MailService mailService) {
+    public AuthBusiness(UserRepository userRepository, HashUtils hashUtils, StringUtils stringUtils, UserLoginHistoryRepository userLoginHistoryRepository, JWTProvider jwtProvider, MailService mailService, OTPRepository otpRepository, SmsService smsService) {
         this.userRepository = userRepository;
+
         this.hashUtils = hashUtils;
+
         this.stringUtils = stringUtils;
+
         this.userLoginHistoryRepository = userLoginHistoryRepository;
+
         this.jwtProvider = jwtProvider;
 
         this.mailService = mailService;
+
+        this.otpRepository = otpRepository;
+
+        this.smsService = smsService;
     }
 
     public LoginResponse login(AdminRegisterRequest input) {
@@ -100,5 +119,56 @@ public class AuthBusiness extends BaseBusiness {
         String pass = hashUtils.hash(input.getPassword());
         user.setPassword(pass);
         userRepository.save(user);
+    }
+
+    public IdResponse forgotPasswordOTP(ForgotPasswordOTPRequest input) {
+        Optional<User> optUser = userRepository.getByPhone(input.getPhone());
+        if (optUser.isEmpty()) {
+            throw new DataNotFoundException("Người dùng không tồn tại");
+        } else {
+            User user = optUser.get();
+            if (user.getStatus().equals(AccStatusEnum.CREATED.getValue())) {
+                throw new DataNotFoundException("Tài Khoản của bạn đang bị khóa, cần mở khóa trước khi lấy lại mật khẩu, hãy liên hệ quản trị viên");
+            }
+            if (user.getStatus().equals(AccStatusEnum.BANNED.getValue())) {
+                throw new DataNotFoundException("Tài khoản của bạn đã bị cấm");
+            }
+        }
+        OTP otp = otpRepository.save(new NumberOTP()
+                .setType(OTPTypeEnum.RESET_PASSWORD))
+                .setTargetId(String.valueOf(optUser.get().getId()));
+        smsService.sendOTP(input.getPhone(), otp.getOtp());
+        return new IdResponse(optUser.get().getId());
+
+    }
+
+    public IdResponse resetPasswordOTP(ResetPasswordOTPRequest input) {
+        Optional<User> optUser = userRepository.findById(input.getId());
+        if (optUser.isEmpty()) {
+            throw new DataNotFoundException("Người dùng không tồn tại");
+        } else {
+            User user = optUser.get();
+            if (user.getStatus().equals(AccStatusEnum.CREATED.getValue())) {
+                throw new DataNotFoundException("Tài Khoản của bạn đang bị khóa, cần mở khóa trước khi lấy lại mật khẩu, hãy liên hệ quản trị viên");
+            }
+            if (user.getStatus().equals(AccStatusEnum.BANNED.getValue())) {
+                throw new DataNotFoundException("Tài khoản của bạn đã bị cấm");
+            }
+        }
+        Optional<OTP> optOtp = otpRepository.getByTargetId(input.getId());
+        if (optOtp.isEmpty()) {
+            throw new DataNotFoundException("mã opt trống");
+        } else {
+            OTP otp = optOtp.get();
+            if (!otp.getOtp().equals(input.getOtp())) {
+                throw new DataNotFoundException("Mã otp không đúng với mã otp đã gửi");
+            }
+            if (otp.getCreatedAt().plusHours(4).isAfter(LocalDateTime.now())) {
+                throw new DataNotFoundException("Mã otp đã hết hạn ");
+            }
+        }
+        userRepository.save(optUser.get().setPassword(hashUtils.hash(input.getPassword())));
+        return new IdResponse(optUser.get().getId());
+
     }
 }

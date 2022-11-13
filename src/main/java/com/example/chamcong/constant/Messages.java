@@ -63,4 +63,9 @@ public class Messages {
 
     public static final String MES031 = "tên tin tức không được bỏ trống";
 
+    public static final String MES032 = "Mã opt không được bỏ trống";
+
+    public static final String MES033 = "Mã opt phải có 6 số";
+
+
 }

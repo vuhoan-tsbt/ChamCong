@@ -10,9 +10,13 @@ import java.util.Optional;
 
 public interface DepartmentRepository extends JpaRepository<Department, Integer>, CustomerDepartmentRepository {
 
+    @Override
     @Query("select department from Department department where department.id=:id")
     Department getById(Integer id);
 
     @Query("select depar from Department depar where depar.department = :department")
     Optional<Department> getByDepartment(String department);
+
+    @Query("select department from Department ")
+    Department getAllByDepartment();
 }

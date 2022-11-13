@@ -1,6 +1,11 @@
 package com.example.chamcong.controller;
 
 import com.example.chamcong.business.UserBusiness;
+import com.example.chamcong.dto.DepartmentDTO;
+import com.example.chamcong.dto.NewsDTO;
+import com.example.chamcong.dto.PagingDTO;
+import com.example.chamcong.dto.UserDTO;
+import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.request.ChainPasswordRequest;
 import com.example.chamcong.model.request.UpdateInformationRequest;
@@ -37,5 +42,19 @@ public class UserController {
         return RootResponse.success("Đổi Mật Khẩu Thành Công.", userBusiness.chainPassword(input));
     }
 
+    @GetMapping("/department")
+    public RootResponse<DepartmentDTO> department(){
+        return RootResponse.success("",userBusiness.department());
+    }
+
+    @GetMapping("/news")
+    public RootResponse<NewsDTO> news(){
+        return RootResponse.success("",userBusiness.news());
+    }
+
+    @GetMapping("/list-employee")
+    public RootResponse<PageResponse<UserDTO>> listStaff(@ModelAttribute PagingDTO input){
+        return RootResponse.success("",userBusiness.listStaff(input));
+    }
 
 }

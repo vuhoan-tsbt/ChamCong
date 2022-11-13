@@ -3,9 +3,7 @@ package com.example.chamcong.controller;
 import com.example.chamcong.business.AuthBusiness;
 import com.example.chamcong.filter.JWTFilter;
 import com.example.chamcong.model.RootResponse;
-import com.example.chamcong.model.request.AdminRegisterRequest;
-import com.example.chamcong.model.request.ForgotPasswordRequest;
-import com.example.chamcong.model.request.ResetPasswordTokenRequest;
+import com.example.chamcong.model.request.*;
 import com.example.chamcong.model.response.LoginResponse;
 import com.example.chamcong.model.response.ResetPasswordTokenResponse;
 import com.example.chamcong.security.JWTProvider;
@@ -80,6 +78,15 @@ public class AuthController {
         cookie.setMaxAge(0);
         response.addCookie(cookie);
         return RootResponse.success("Đăng xuất thành công", null);
+    }
+
+    @PostMapping("/forgot-otp")
+    public RootResponse<Object> forgotPasswordOTP(@RequestBody @Valid ForgotPasswordOTPRequest input){
+        return RootResponse.success("tin nhắn sẽ được gửi đến sdt của bạn",authBusiness.forgotPasswordOTP(input));
+    }
+    @PostMapping("reset-otp")
+    public RootResponse<Object> resetPasswordOTP(@RequestBody @Valid ResetPasswordOTPRequest input){
+        return RootResponse.success("Đổi mật khẩu thành công, bạn hãy đăng nhập lại",authBusiness.resetPasswordOTP(input));
     }
 
 }

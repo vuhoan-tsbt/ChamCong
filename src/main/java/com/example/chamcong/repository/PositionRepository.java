@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer>, CustomerPositionRepository {
 
+    @Override
     @Query("select position from Position position where position.id =:id")
     Position getById(Integer id);
 

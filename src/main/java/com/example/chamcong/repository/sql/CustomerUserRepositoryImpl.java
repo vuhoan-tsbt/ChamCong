@@ -1,5 +1,6 @@
 package com.example.chamcong.repository.sql;
 
+import com.example.chamcong.dto.PagingDTO;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.model.request.SearchUserRequest;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     public List<User> findAllByCondition(SearchUserRequest input) {
         String sql = "select * from user WHERE 1=1";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
-            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'" ;
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'";
         }
 
         sql += " order by created_at desc";
@@ -36,7 +37,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     public Integer getAllByCondition(SearchUserRequest input) {
         String sql = "select count(*) from user WHERE 1=1";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
-            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'" ;
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'";
         }
 
         Query query = entityManager.createNativeQuery(sql);
@@ -46,7 +47,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     @Override
     public User getSalary(String staffCode) {
-        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '" + staffCode +"'";
+        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '" + staffCode + "'";
 
         Query query = entityManager.createNativeQuery(sql, User.class);
         return (User) query.getSingleResult();
@@ -66,6 +67,26 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
         String sql = "select * from user where position_id= " + id;
 
         return entityManager.createNativeQuery(sql, User.class).getResultList();
+    }
+
+    @Override
+    public List<User> findUser(PagingDTO input) {
+        String sql = "select * from user";
+
+        if (input.getPage() != null) {
+            int pageOffset = 20 * (input.getPage() - 1);
+            sql += " limit 20 offset " + pageOffset;
+        }
+
+        return entityManager.createNativeQuery(sql, User.class).getResultList();
+    }
+
+    @Override
+    public Integer getUser(PagingDTO input) {
+        String sql = "select count(*) from user";
+        Query query = entityManager.createNativeQuery(sql);
+        int count = ((Number) query.getSingleResult()).intValue();
+        return count;
     }
 
 

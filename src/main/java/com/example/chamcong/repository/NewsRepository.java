@@ -14,6 +14,10 @@ public interface NewsRepository extends JpaRepository<News, Integer>, CustomerNe
     @Query("select news from News  news where news.typeOfNews = :typeOfNews")
     Optional<News> getByName(String typeOfNews);
 
+    @Override
     @Query("select news from News news where news.id =:id")
     News getById(Integer id);
+
+    @Query("select newss from News ")
+    News getAllByNews();
 }

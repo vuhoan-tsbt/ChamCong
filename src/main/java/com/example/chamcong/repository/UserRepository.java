@@ -39,5 +39,8 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query("select manager from Manager manager where manager.email = :email")
     User getByEmailToken(String email);
 
+    @Query(value = "select parent from User parent where parent.phone = :phone")
+    Optional<User> getByPhone(String phone);
+
 
 }
