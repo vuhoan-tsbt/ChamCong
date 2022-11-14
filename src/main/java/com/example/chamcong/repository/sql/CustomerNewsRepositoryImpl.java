@@ -19,7 +19,7 @@ public class CustomerNewsRepositoryImpl implements CustomerNewsRepository {
     public List<News> findAllNews(NewsRequest input) {
         String sql = " select * from news where 1=1";
         if (input.getTypeOfNews() != null && !input.getTypeOfNews().trim().equals("")) {
-            sql += "and type_of_news like '%" + input.getTypeOfNews() + "%'";
+            sql += " and type_of_news like '%" + input.getTypeOfNews() + "%'";
         }
         return entityManager.createNativeQuery(sql, News.class).getResultList();
     }
@@ -29,7 +29,7 @@ public class CustomerNewsRepositoryImpl implements CustomerNewsRepository {
         String sql = " select count(*) from news where 1=1";
 
         if (input.getTypeOfNews() != null && !input.getTypeOfNews().trim().equals("")) {
-            sql += "and type_of_news like '%" + input.getTypeOfNews() + "%'";
+            sql += " and type_of_news like '%" + input.getTypeOfNews() + "%'";
         }
         Query query = entityManager.createNativeQuery(sql);
         int count = ((Number) query.getSingleResult()).intValue();

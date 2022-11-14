@@ -136,7 +136,7 @@ public class AuthBusiness extends BaseBusiness {
         }
         OTP otp = otpRepository.save(new NumberOTP()
                 .setType(OTPTypeEnum.RESET_PASSWORD))
-                .setTargetId(String.valueOf(optUser.get().getId()));
+                .setTargetId(optUser.get().getId());
         smsService.sendOTP(input.getPhone(), otp.getOtp());
         return new IdResponse(optUser.get().getId());
 
@@ -163,7 +163,7 @@ public class AuthBusiness extends BaseBusiness {
             if (!otp.getOtp().equals(input.getOtp())) {
                 throw new DataNotFoundException("Mã otp không đúng với mã otp đã gửi");
             }
-            if (otp.getCreatedAt().plusHours(4).isAfter(LocalDateTime.now())) {
+            if (!otp.getCreatedAt().plusHours(4).isAfter(LocalDateTime.now())) {
                 throw new DataNotFoundException("Mã otp đã hết hạn ");
             }
         }

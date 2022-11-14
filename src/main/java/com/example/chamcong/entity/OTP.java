@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Accessors(chain = true)
+@Table(name = "otp")
 public class OTP {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class OTP {
     @Column(nullable = false)
     private OTPTypeEnum type;
     @Column(nullable = false)
-    private String targetId;
+    private int targetId;
     private String otp;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

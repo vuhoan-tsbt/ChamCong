@@ -32,7 +32,7 @@ public class CustomerDepartmentRepositoryImpl implements CustomerDepartmentRepos
     public Integer getAllDepartment(DepartmentRequest input) {
         String sql = "select count(*) from department where 1=1";
         if (input.getDepartment() != null && !input.getDepartment().trim().equals("")) {
-            sql += " and department '%" + input.getDepartment() + "%'";
+            sql += " and department like '%" + input.getDepartment() + "%'";
         }
         Query query = entityManager.createNativeQuery(sql);
         int count = ((Number) query.getSingleResult()).intValue();

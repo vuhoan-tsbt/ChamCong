@@ -11,6 +11,7 @@ import com.example.chamcong.model.response.NewsResponse;
 import com.example.chamcong.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +34,7 @@ public class NewsBusiness extends BaseBusiness {
             newsResponse.setId(news1.getId());
             newsResponse.setTypeOfNews(news1.getTypeOfNews());
             newsResponse.setContent(news1.getContent());
-            newsResponse.setCreatedAt(String.valueOf(news1.getCreatedAt()));
+            newsResponse.setCreatedAt(String.valueOf(news1.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"))));
             return newsResponse;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages,totalElements,responses);

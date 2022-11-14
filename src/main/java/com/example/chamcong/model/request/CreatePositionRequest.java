@@ -16,6 +16,7 @@ public class CreatePositionRequest {
 
     @NotBlank(message = Messages.MES026)
     private String position;
+
     @NotNull(message = Messages.MES027)
     private Long salary;
 

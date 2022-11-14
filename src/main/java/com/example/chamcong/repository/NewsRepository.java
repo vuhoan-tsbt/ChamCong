@@ -18,6 +18,6 @@ public interface NewsRepository extends JpaRepository<News, Integer>, CustomerNe
     @Query("select news from News news where news.id =:id")
     News getById(Integer id);
 
-    @Query("select newss from News ")
+    @Query("select newss from News newss ")
     News getAllByNews();
 }

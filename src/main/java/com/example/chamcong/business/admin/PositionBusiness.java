@@ -37,9 +37,9 @@ public class PositionBusiness extends BaseBusiness {
             PositionResponse positionResponse = new PositionResponse();
             positionResponse.setId(position.getId());
             positionResponse.setPosition(position.getPosition());
-            position.setAllowance(position.getAllowance());
-            position.setSalary(position.getSalary());
-            position.setWage(position.getWage());
+            positionResponse.setAllowance(position.getAllowance());
+            positionResponse.setSalary(position.getSalary());
+            positionResponse.setWage(position.getWage());
             return positionResponse;
         }).collect(Collectors.toList());
         return PageResponse.create(totalElements,totalPages,responses);

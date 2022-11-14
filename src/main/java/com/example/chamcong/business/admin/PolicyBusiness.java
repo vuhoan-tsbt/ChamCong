@@ -31,8 +31,8 @@ public class PolicyBusiness extends BaseBusiness {
         List<PolicyResponse> responses = policies.stream().map(policy -> {
             PolicyResponse policyResponse = new PolicyResponse();
             policyResponse.setId(policy.getId());
-            policy.setNamePolicy(policy.getNamePolicy());
-            policy.setContentPolicy(policy.getNamePolicy());
+            policyResponse.setNamePolicy(policy.getNamePolicy());
+            policyResponse.setContentPolicy(policy.getContentPolicy());
             return policyResponse;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages,totalElements,responses);
