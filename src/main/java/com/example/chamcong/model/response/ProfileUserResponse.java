@@ -21,6 +21,8 @@ public class ProfileUserResponse {
 
     private String address;
 
+    private String avatar;
+
     private String dateOfBirth;
 
     private String phone;

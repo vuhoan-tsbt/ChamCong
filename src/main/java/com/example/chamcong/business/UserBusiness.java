@@ -16,12 +16,17 @@ import com.example.chamcong.model.response.IdResponse;
 import com.example.chamcong.repository.DepartmentRepository;
 import com.example.chamcong.repository.NewsRepository;
 import com.example.chamcong.repository.UserRepository;
+import com.example.chamcong.service.AvatarService;
 import com.example.chamcong.utils.HashUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,18 +41,25 @@ UserBusiness extends BaseBusiness {
 
     private final NewsRepository newsRepository;
 
+    private final AvatarService avatarService;
 
-    public UserBusiness(UserRepository userRepository, HashUtils hashUtils, DepartmentRepository departmentRepository, NewsRepository newsRepository) {
+
+    public UserBusiness(UserRepository userRepository, HashUtils hashUtils, DepartmentRepository departmentRepository, NewsRepository newsRepository, AvatarService avatarService) {
         this.userRepository = userRepository;
         this.hashUtils = hashUtils;
         this.departmentRepository = departmentRepository;
         this.newsRepository = newsRepository;
+        this.avatarService = avatarService;
     }
 
 
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+    private final String root = "Avatar\\";
+
+    private final Path rootPath = Path.of(("Avatar"));
+
     public ProfileUserResponse profileEmployee(){
         User user = getCurrentUser();
         ProfileUserResponse response = new ProfileUserResponse();
@@ -55,6 +67,7 @@ UserBusiness extends BaseBusiness {
         response.setEmail(user.getEmail());
         response.setStaffCode(user.getStaffCode());
         response.setAddress(user.getAddress());
+        response.setAvatar(String.format("http://localhost:8081/avatar/api/download/%s", user.getAvatar()));
         response.setDateOfBirth(user.getDateOfBirth());
         response.setPhone(user.getPhone());
         response.setDepartment(user.getDepartment().getDepartment());
@@ -115,5 +128,18 @@ UserBusiness extends BaseBusiness {
             return dto;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages, totalElements, list);
+    }
+
+    public String uploadImage(MultipartFile file) throws IOException {
+
+        User user = getCurrentUser();
+        String name = file.getOriginalFilename().split("[.]")[0] + UUID.randomUUID();
+        String type = file.getOriginalFilename().split("[.]")[1];
+        String fileName = name + "." + type;
+        String filePath = root + fileName;
+        avatarService.saveFileFolder(file,fileName);
+        user.setAvatar(filePath);
+        userRepository.save(user);
+        return null;
     }
 }
