@@ -19,9 +19,9 @@ public interface CustomerUserRepository {
 
     List<User> getAllUserPosition(Integer id);
 
-    List<User> findUser(PagingDTO input);
+    List<User> findUser( );
 
-    Integer getUser(PagingDTO input);
+
 
 
 }

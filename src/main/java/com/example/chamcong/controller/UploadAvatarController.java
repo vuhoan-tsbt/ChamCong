@@ -41,10 +41,10 @@ public class UploadAvatarController {
         return RootResponse.success("", new IdAvatarResponse(message));
     }
     @PostMapping("/upload_images")
-    public RootResponse<Object> uploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        userBusiness.uploadImage(file);
-        return RootResponse.success("upload images success", null);
+    public RootResponse<Object> uploadImage(@RequestBody MultipartFile file) throws IOException {
+        return RootResponse.success("upload images success", userBusiness.uploadImage(file));
     }
+
     @GetMapping("/download/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable String fileName) throws IOException {
         byte[] imageData = avatarService.downloadImage(fileName);

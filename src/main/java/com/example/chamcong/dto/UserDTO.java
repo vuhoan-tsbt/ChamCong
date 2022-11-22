@@ -11,6 +11,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class UserDTO {
 
+    private Integer id;
     private String name;
     private String dateOfBirth;
     private String department;

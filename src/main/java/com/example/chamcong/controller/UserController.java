@@ -54,8 +54,8 @@ public class UserController {
     }
 
     @GetMapping("/list-employee")
-    public RootResponse<PageResponse<UserDTO>> listStaff(@ModelAttribute PagingDTO input){
-        return RootResponse.success("",userBusiness.listStaff(input));
+    public RootResponse<List<UserDTO>> listStaff(){
+        return RootResponse.success("",userBusiness.listStaff());
     }
 
 

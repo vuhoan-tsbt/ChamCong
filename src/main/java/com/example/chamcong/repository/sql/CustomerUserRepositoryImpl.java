@@ -70,24 +70,14 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     }
 
     @Override
-    public List<User> findUser(PagingDTO input) {
+    public List<User> findUser(  ) {
         String sql = "select * from user";
 
-        if (input.getPage() != null) {
-            int pageOffset = 20 * (input.getPage() - 1);
-            sql += " limit 20 offset " + pageOffset;
-        }
 
         return entityManager.createNativeQuery(sql, User.class).getResultList();
     }
 
-    @Override
-    public Integer getUser(PagingDTO input) {
-        String sql = "select count(*) from user";
-        Query query = entityManager.createNativeQuery(sql);
-        int count = ((Number) query.getSingleResult()).intValue();
-        return count;
-    }
+
 
 
 }

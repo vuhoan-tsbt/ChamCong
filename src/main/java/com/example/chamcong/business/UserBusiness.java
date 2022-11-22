@@ -56,7 +56,7 @@ UserBusiness extends BaseBusiness {
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    private final String root = "Avatar\\";
+    private final String root = "Avatar/";
 
     private final Path rootPath = Path.of(("Avatar"));
 
@@ -120,12 +120,11 @@ UserBusiness extends BaseBusiness {
         return newsDTO;
     }
 
-    public PageResponse<UserDTO> listStaff(PagingDTO input) {
-        List<User> users  = userRepository.findUser(input);
-        int totalElements = userRepository.getUser(input);
-        int totalPages = Math.max(1, (int) Math.ceil((double) totalElements / input.getSize()));
+    public List<UserDTO> listStaff() {
+        List<User> users  = userRepository.findUser();
         List<UserDTO> list = users.stream().map(user -> {
             UserDTO dto = new UserDTO();
+            dto.setId(user.getId());
             dto.setName(user.getFullName());
             dto.setDepartment(user.getDepartment().getDepartment());
             dto.setPosition(user.getPosition().getPosition());
@@ -134,7 +133,7 @@ UserBusiness extends BaseBusiness {
             dto.setAddress(user.getAddress());
             return dto;
         }).collect(Collectors.toList());
-        return PageResponse.create(totalPages, totalElements, list);
+        return list;
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
@@ -147,6 +146,6 @@ UserBusiness extends BaseBusiness {
         avatarService.saveFileFolder(file,fileName);
         user.setAvatar(filePath);
         userRepository.save(user);
-        return null;
+        return filePath;
     }
 }
