@@ -98,18 +98,25 @@ UserBusiness extends BaseBusiness {
 
     }
 
-    public DepartmentDTO department() {
-        Department department = departmentRepository.getAllByDepartment();
-        DepartmentDTO dto = new DepartmentDTO();
-        dto.setDepartment(department.getDepartment());
-        return dto;
+    public List<DepartmentDTO> department() {
+        List<Department> department = departmentRepository.getAllByDepartment();
+        List<DepartmentDTO> dto = department.stream().map(department1 -> {
+            DepartmentDTO dto1 = new DepartmentDTO();
+            dto1.setDepartment(department1.getDepartment());
+            return dto1;
+        }).collect(Collectors.toList());
+
+        return  dto;
     }
 
-    public NewsDTO news() {
-        News news = newsRepository.getAllByNews();
-        NewsDTO newsDTO = new NewsDTO();
-        newsDTO.setNameNews(news.getTypeOfNews());
-        newsDTO.setContent(news.getContent());
+    public List<NewsDTO> news() {
+        List<News> news = newsRepository.getAllByNews();
+        List<NewsDTO> newsDTO = news.stream().map(news1 -> {
+            NewsDTO dto = new NewsDTO();
+            dto.setNameNews(news1.getTypeOfNews());
+            dto.setContent(news1.getContent());
+            return dto;
+        }).collect(Collectors.toList());
         return newsDTO;
     }
 

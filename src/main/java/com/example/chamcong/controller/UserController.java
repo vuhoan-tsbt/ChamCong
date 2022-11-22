@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping(value = "/user/api", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
@@ -43,12 +44,12 @@ public class UserController {
     }
 
     @GetMapping("/department")
-    public RootResponse<DepartmentDTO> department(){
+    public RootResponse<List<DepartmentDTO>> department(){
         return RootResponse.success("",userBusiness.department());
     }
 
     @GetMapping("/news")
-    public RootResponse<NewsDTO> news(){
+    public RootResponse<List<NewsDTO>> news(){
         return RootResponse.success("",userBusiness.news());
     }
 
