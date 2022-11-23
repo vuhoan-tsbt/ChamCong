@@ -42,6 +42,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query(value = "select parent from User parent where parent.phone = :phone")
     Optional<User> getByPhone(String phone);
 
+
     Optional<User> findByAvatar(String fileName);
 
 

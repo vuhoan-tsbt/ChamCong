@@ -22,7 +22,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
@@ -56,7 +58,7 @@ UserBusiness extends BaseBusiness {
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    private final String root = "Avatar/";
+    private final String root = "Avatar\\";
 
     private final Path rootPath = Path.of(("Avatar"));
 
@@ -67,7 +69,7 @@ UserBusiness extends BaseBusiness {
         response.setEmail(user.getEmail());
         response.setStaffCode(user.getStaffCode());
         response.setAddress(user.getAddress());
-        response.setAvatar(String.format("http://localhost:8081/avatar/api/download/%s", user.getAvatar()));
+        response.setAvatar(String.format("http://localhost:8081/avatar/api/images/%s",user.getNameAvatar()));
         response.setDateOfBirth(user.getDateOfBirth());
         response.setPhone(user.getPhone());
         response.setDepartment(user.getDepartment().getDepartment());
@@ -137,7 +139,6 @@ UserBusiness extends BaseBusiness {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
-
         User user = getCurrentUser();
         String name = file.getOriginalFilename().split("[.]")[0] + UUID.randomUUID();
         String type = file.getOriginalFilename().split("[.]")[1];
@@ -145,7 +146,17 @@ UserBusiness extends BaseBusiness {
         String filePath = root + fileName;
         avatarService.saveFileFolder(file,fileName);
         user.setAvatar(filePath);
+        user.setNameAvatar(fileName);
         userRepository.save(user);
         return filePath;
     }
+
+    public byte[] downloadImage(String fileName) throws IOException {
+        User fileData = getCurrentUser();
+        String filePath = fileData.getAvatar();
+        byte[] images = Files.readAllBytes(new File(filePath).toPath());
+        return images;
+    }
+
+
 }

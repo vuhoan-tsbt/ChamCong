@@ -2,8 +2,7 @@ package com.example.chamcong.entity;
 
 import com.example.chamcong.entity.base.BaseUser;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +19,7 @@ import java.util.List;
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = {"email", "staffCode"}))
 @Where(clause = "deleted = false")
 @Accessors(chain = true)
+
 public class User extends BaseUser {
     private static final long serialVersionUID = 1L;
 
@@ -33,6 +33,8 @@ public class User extends BaseUser {
     private String fullName;
 
     private String avatar;
+
+    private String nameAvatar;
 
     private String staffCode;
 
@@ -61,6 +63,7 @@ public class User extends BaseUser {
     @OneToMany
     @JoinColumn(name="user_id")
     private List<UserLoginHistory> userLoginHistory;
+
 
 
 

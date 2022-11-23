@@ -11,10 +11,14 @@ import com.example.chamcong.model.request.ChainPasswordRequest;
 import com.example.chamcong.model.request.UpdateInformationRequest;
 import com.example.chamcong.model.response.ProfileUserResponse;
 import com.example.chamcong.model.response.IdResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping(value = "/user/api", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public RootResponse<ProfileUserResponse> profileEmployee(){
+    public RootResponse<ProfileUserResponse> profileEmployee()  {
        return RootResponse.success("", userBusiness.profileEmployee());
     }
 
@@ -57,6 +61,7 @@ public class UserController {
     public RootResponse<List<UserDTO>> listStaff(){
         return RootResponse.success("",userBusiness.listStaff());
     }
+
 
 
 }

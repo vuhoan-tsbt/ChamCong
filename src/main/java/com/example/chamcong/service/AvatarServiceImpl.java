@@ -26,7 +26,6 @@ public class AvatarServiceImpl implements AvatarService{
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    private final String root = "D:\\ThucTap\\ChamCong\\Avatar\\";
 
     private final Path rootPath = Path.of(("Avatar"));
 
@@ -39,11 +38,5 @@ public class AvatarServiceImpl implements AvatarService{
         }
     }
 
-    @Override
-    public byte[] downloadImage(String fileName) throws IOException {
-        Optional<User> fileData = userRepository.findByAvatar(fileName);
-        String filePath = fileData.get().getAvatar();
-        byte[] images = Files.readAllBytes(new File(filePath).toPath());
-        return images;
-    }
+
 }

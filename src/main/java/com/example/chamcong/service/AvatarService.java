@@ -8,5 +8,4 @@ public interface AvatarService {
     public void saveFileFolder(MultipartFile file, String fileName) throws IOException;
 
 
-    byte[] downloadImage(String fileName) throws IOException;
 }
