@@ -1,10 +1,7 @@
 package com.example.chamcong.controller;
 
 import com.example.chamcong.business.UserBusiness;
-import com.example.chamcong.dto.DepartmentDTO;
-import com.example.chamcong.dto.NewsDTO;
-import com.example.chamcong.dto.PagingDTO;
-import com.example.chamcong.dto.UserDTO;
+import com.example.chamcong.dto.*;
 import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.request.ChainPasswordRequest;
@@ -60,6 +57,10 @@ public class UserController {
     @GetMapping("/list-employee")
     public RootResponse<List<UserDTO>> listStaff(){
         return RootResponse.success("",userBusiness.listStaff());
+    }
+    @GetMapping("/get-user/{id}")
+    public RootResponse<UserDTOId> getUserId(@PathVariable("id") Integer id){
+        return  RootResponse.success("",userBusiness.getUserId(id));
     }
 
 

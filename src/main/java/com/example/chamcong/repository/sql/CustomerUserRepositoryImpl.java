@@ -73,7 +73,6 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     public List<User> findUser(  ) {
         String sql = "select * from user";
 
-
         return entityManager.createNativeQuery(sql, User.class).getResultList();
     }
 

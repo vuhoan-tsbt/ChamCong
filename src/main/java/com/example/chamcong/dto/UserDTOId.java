@@ -9,13 +9,13 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @Accessors(chain = true)
 @NoArgsConstructor
-public class UserDTO {
+public class UserDTOId {
 
-    private Integer id;
     private String fullName;
     private String dateOfBirth;
-    private String department;
-    private String position;
+    private Integer department;
+    private Integer position;
     private String avatar;
     private String address;
+    private Integer role;
 }

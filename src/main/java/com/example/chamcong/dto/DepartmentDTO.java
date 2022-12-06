@@ -12,6 +12,7 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class DepartmentDTO {
 
+    private Integer id;
     private String Department;
 
 

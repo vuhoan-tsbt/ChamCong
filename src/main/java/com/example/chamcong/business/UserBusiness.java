@@ -1,9 +1,6 @@
 package com.example.chamcong.business;
 
-import com.example.chamcong.dto.DepartmentDTO;
-import com.example.chamcong.dto.NewsDTO;
-import com.example.chamcong.dto.PagingDTO;
-import com.example.chamcong.dto.UserDTO;
+import com.example.chamcong.dto.*;
 import com.example.chamcong.entity.Department;
 import com.example.chamcong.entity.News;
 import com.example.chamcong.entity.User;
@@ -104,6 +101,7 @@ UserBusiness extends BaseBusiness {
         List<Department> department = departmentRepository.getAllByDepartment();
         List<DepartmentDTO> dto = department.stream().map(department1 -> {
             DepartmentDTO dto1 = new DepartmentDTO();
+            dto1.setId(department1.getId());
             dto1.setDepartment(department1.getDepartment());
             return dto1;
         }).collect(Collectors.toList());
@@ -122,12 +120,12 @@ UserBusiness extends BaseBusiness {
         return newsDTO;
     }
 
-    public List<UserDTO> listStaff() {
+    public List<UserDTO>  listStaff() {
         List<User> users  = userRepository.findUser();
         List<UserDTO> list = users.stream().map(user -> {
             UserDTO dto = new UserDTO();
             dto.setId(user.getId());
-            dto.setName(user.getFullName());
+            dto.setFullName(user.getFullName());
             dto.setDepartment(user.getDepartment().getDepartment());
             dto.setPosition(user.getPosition().getPosition());
             dto.setDateOfBirth(user.getDateOfBirth());
@@ -159,4 +157,19 @@ UserBusiness extends BaseBusiness {
     }
 
 
+    public UserDTOId getUserId(Integer id) {
+        Optional<User> optUser = userRepository.findById(id);
+        if(optUser.isEmpty()){
+            throw new DataNotFoundException("tài khoản không tồn tại");
+        }
+        UserDTOId dtoId = new UserDTOId();
+        dtoId.setFullName(optUser.get().getFullName());
+        dtoId.setRole(optUser.get().getRole().getId());
+        dtoId.setAvatar(optUser.get().getAvatar());
+        dtoId.setDepartment(optUser.get().getDepartment().getId());
+        dtoId.setPosition(optUser.get().getPosition().getId());
+        dtoId.setAddress(optUser.get().getAddress());
+        dtoId.setDateOfBirth(optUser.get().getDateOfBirth());
+        return dtoId;
+    }
 }
