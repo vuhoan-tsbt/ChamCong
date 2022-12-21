@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/position/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/position", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('ADMIN')")
 public class PositionController {

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/dot/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/dot", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('EDITER')")
 public class DotInformationController {

@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-@RequestMapping(value = "/auth/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class AuthController {
 

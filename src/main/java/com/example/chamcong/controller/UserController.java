@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
-@RequestMapping(value = "/user/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 
 public class UserController {

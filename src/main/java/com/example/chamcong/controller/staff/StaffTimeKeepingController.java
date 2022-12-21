@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping(value = "/timekeeping/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/timekeeping", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('STAFF','EDITER')")
 public class StaffTimeKeepingController {

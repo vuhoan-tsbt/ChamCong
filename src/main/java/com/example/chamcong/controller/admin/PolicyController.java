@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/policy/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/policy", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('ADMIN')")
 public class PolicyController {

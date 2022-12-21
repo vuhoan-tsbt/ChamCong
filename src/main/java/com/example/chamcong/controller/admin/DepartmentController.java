@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.Root;
 import javax.validation.Valid;
 
-@RequestMapping(value = "/department/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/department", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('ADMIN')")
 public class DepartmentController {

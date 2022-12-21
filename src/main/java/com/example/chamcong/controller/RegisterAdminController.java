@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/user/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class RegisterAdminController {
 

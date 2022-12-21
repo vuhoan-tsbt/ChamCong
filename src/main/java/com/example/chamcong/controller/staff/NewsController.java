@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping(value = "/news/api", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/news", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('EDITER')")
 public class NewsController {
