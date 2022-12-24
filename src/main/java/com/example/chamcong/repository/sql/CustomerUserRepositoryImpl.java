@@ -21,14 +21,15 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     public List<User> findAllByCondition(SearchUserRequest input) {
         String sql = "select * from user WHERE 1=1";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
-            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'";
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%"
+                    + input.getSearchUser() + "%'";
         }
 
         sql += " order by created_at desc";
 
         if (input.getPage() != null) {
-            int pageOffset = 5 * (input.getPage() - 1);
-            sql += " limit 5 offset " + pageOffset;
+            int pageOffset = input.getSize() * (input.getPage() - 1);
+            sql += " limit " + input.getSize() + " offset " + pageOffset;
         }
         return entityManager.createNativeQuery(sql, User.class).getResultList();
     }
@@ -37,7 +38,8 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     public Integer getAllByCondition(SearchUserRequest input) {
         String sql = "select count(*) from user WHERE 1=1";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
-            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%" + input.getSearchUser() + "%'";
+            sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%"
+                    + input.getSearchUser() + "%'";
         }
 
         Query query = entityManager.createNativeQuery(sql);
@@ -47,7 +49,8 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     @Override
     public User getSalary(String staffCode) {
-        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '" + staffCode + "'";
+        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '"
+                + staffCode + "'";
 
         Query query = entityManager.createNativeQuery(sql, User.class);
         return (User) query.getSingleResult();
@@ -70,13 +73,10 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     }
 
     @Override
-    public List<User> findUser(  ) {
+    public List<User> findUser() {
         String sql = "select * from user";
 
         return entityManager.createNativeQuery(sql, User.class).getResultList();
     }
-
-
-
 
 }

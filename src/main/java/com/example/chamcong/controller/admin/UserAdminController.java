@@ -25,8 +25,8 @@ public class UserAdminController {
         this.userAdminBusiness = userAdminBusiness;
 
     }
-    @GetMapping("/list-user")
-    public RootResponse<PageResponse<UserResponse>> listUser(@ModelAttribute @Valid SearchUserRequest input) {
+    @PostMapping("/list-user")
+    public RootResponse<PageResponse<UserResponse>> listUser(@RequestBody @Valid SearchUserRequest input) {
         return RootResponse.success("Get list user success", userAdminBusiness.listUser(input));
     }
 

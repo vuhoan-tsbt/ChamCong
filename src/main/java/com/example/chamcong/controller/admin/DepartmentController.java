@@ -25,8 +25,8 @@ public class DepartmentController {
         this.departmentBusiness = departmentBusiness;
     }
 
-    @GetMapping("/list_department")
-    public RootResponse<PageResponse<DepartmentResponse>> listDepartment(@ModelAttribute DepartmentRequest input){
+    @PostMapping("/list_department")
+    public RootResponse<PageResponse<DepartmentResponse>> listDepartment(@RequestBody DepartmentRequest input){
         return RootResponse.success("Danh sách phòng ban công ty ", departmentBusiness.listDepartment(input));
     }
 
