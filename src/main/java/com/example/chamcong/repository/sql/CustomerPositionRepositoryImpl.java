@@ -22,8 +22,8 @@ public class CustomerPositionRepositoryImpl implements CustomerPositionRepositor
             sql += " and position like '%" + input.getPosition() + "%'";
         }
         if (input.getPage() != null) {
-            int pageOffset = 5 * (input.getPage() - 1);
-            sql += " limit 5 offset " + pageOffset;
+            int pageOffset = input.getSize() * (input.getPage() - 1);
+            sql += " limit " + input.getSize() + " offset " + pageOffset;
         }
         return entityManager.createNativeQuery(sql, Position.class).getResultList();
     }
