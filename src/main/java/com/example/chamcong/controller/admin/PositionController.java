@@ -24,20 +24,30 @@ public class PositionController {
     public PositionController(PositionBusiness positionBusiness) {
         this.positionBusiness = positionBusiness;
     }
+
+    @PostMapping("/list-position")
+    public RootResponse<PageResponse<PositionResponse>> listPosition(@RequestBody PositionRequest input) {
+        return RootResponse.success("Danh sách các chức vụ ", positionBusiness.listPosition(input));
+    }
+
     @GetMapping("/list-position")
-    public RootResponse<PageResponse<PositionResponse>> listPosition(@ModelAttribute PositionRequest input){
-        return RootResponse.success("Danh sách các chức vụ ",positionBusiness.listPosition(input));
+    public RootResponse<PageResponse<PositionResponse>> listPosition1(@ModelAttribute PositionRequest input) {
+        return RootResponse.success("Danh sách các chức vụ ", positionBusiness.listPosition(input));
     }
+
     @PostMapping("/create-position")
-    public RootResponse<IdPositionResponse> createPosition(@RequestBody @Valid CreatePositionRequest input){
-        return RootResponse.success("Thêm chức vụ thành công",positionBusiness.createPosition(input));
+    public RootResponse<IdPositionResponse> createPosition(@RequestBody @Valid CreatePositionRequest input) {
+        return RootResponse.success("Thêm chức vụ thành công", positionBusiness.createPosition(input));
     }
+
     @PutMapping("/update-position/{id}")
-    public RootResponse<IdPositionResponse> updatePosition(@PathVariable("id") int id, @RequestBody @Valid CreatePositionRequest input){
-        return RootResponse.success("Sửa chức vụ thành công",positionBusiness.updatePosition(id,input));
+    public RootResponse<IdPositionResponse> updatePosition(@PathVariable("id") int id,
+            @RequestBody @Valid CreatePositionRequest input) {
+        return RootResponse.success("Sửa chức vụ thành công", positionBusiness.updatePosition(id, input));
     }
+
     @DeleteMapping("/delete-position/{id}")
-    public RootResponse<IdPositionResponse> deletePosition(@PathVariable("id") int id){
-        return RootResponse.success("Xóa chức vụ thành công",positionBusiness.deletePosition(id));
+    public RootResponse<IdPositionResponse> deletePosition(@PathVariable("id") int id) {
+        return RootResponse.success("Xóa chức vụ thành công", positionBusiness.deletePosition(id));
     }
 }

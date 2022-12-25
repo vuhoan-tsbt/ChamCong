@@ -84,7 +84,7 @@ public class AuthController {
     public RootResponse<Object> forgotPasswordOTP(@RequestBody @Valid ForgotPasswordOTPRequest input){
         return RootResponse.success("sẽ có cuộc gọi đến bạn hãy chú ý điện thoại",authBusiness.forgotPasswordOTP(input));
     }
-    @PostMapping("reset-otp")
+    @PostMapping("/reset-otp")
     public RootResponse<Object> resetPasswordOTP(@RequestBody @Valid ResetPasswordOTPRequest input){
         return RootResponse.success("Đổi mật khẩu thành công, bạn hãy đăng nhập lại",authBusiness.resetPasswordOTP(input));
     }

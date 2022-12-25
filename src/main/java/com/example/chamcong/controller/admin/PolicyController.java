@@ -24,8 +24,8 @@ public class PolicyController {
         this.policyBusiness = policyBusiness;
     }
 
-    @GetMapping("/list-policy")
-    public RootResponse<PageResponse<PolicyResponse>> listPolicy(@ModelAttribute @Valid PolicyRequest input){
+    @PostMapping("/list-policy")
+    public RootResponse<PageResponse<PolicyResponse>> listPolicy(@RequestBody @Valid PolicyRequest input){
         return RootResponse.success("Các chính sách",policyBusiness.listPolicy(input));
     }
     @PostMapping("/create-policy")

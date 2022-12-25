@@ -107,7 +107,7 @@ public class AuthBusiness extends BaseBusiness {
         String token = jwtProvider.generateTokenEmail(email);
         user.setResetPasswordToken(token);
         userRepository.save(user);
-        mailService.sendMail(String.format("http://locahost:8081/%s/%s", email, token), email);
+        mailService.sendMail(String.format("http://locahost:8000/reset-pass/%s/%s", email, token), email);
     }
 
     public void resetPassword(ResetPasswordTokenRequest input) {
