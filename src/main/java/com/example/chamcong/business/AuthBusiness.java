@@ -75,7 +75,10 @@ public class AuthBusiness extends BaseBusiness {
             }
             LoginResponse loginResponse = new LoginResponse()
                     .setToken(jwtProvider.generateToken(user))
-                    .setRefreshToken(stringUtils.randomString());
+                    .setRefreshToken(stringUtils.randomString())
+                    .setEmail(user.getEmail())
+                    .setFullName(user.getFullName())
+                    .setRole(user.getRole().getRole());
             userLoginHistoryRepository.save(new UserLoginHistory()
                     .setUser(user)
                     .setToken(loginResponse.getToken())

@@ -6,6 +6,7 @@ import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.CreateEmployeeRequest;
 import com.example.chamcong.model.request.UpdateEmployeeRequest;
+import com.example.chamcong.model.request.UpdateRequest;
 import com.example.chamcong.model.response.IdResponse;
 import com.example.chamcong.repository.*;
 import com.example.chamcong.utils.HashUtils;
@@ -86,7 +87,6 @@ public class UserAdminBusiness extends BaseBusiness {
             userResponse.setAddress(user.getAddress());
             userResponse.setDepartment(user.getDepartment().getDepartment());
             userResponse.setPosition(user.getPosition().getPosition());
-
             return userResponse;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages, totalElements, userResponses);
@@ -116,7 +116,7 @@ public class UserAdminBusiness extends BaseBusiness {
 
     public IdResponse updateEmployee(int id, UpdateEmployeeRequest input) {
         Optional<User> employee = userRepository.findById(id);
-        if (employee.isEmpty()) {
+        if (employee == null) {
             throw new DataNotFoundException("User Not Found");
         }
         User user = employee.get();
@@ -146,4 +146,6 @@ public class UserAdminBusiness extends BaseBusiness {
         userRepository.delete(user);
         return new IdResponse(user.getId());
     }
+
+
 }
