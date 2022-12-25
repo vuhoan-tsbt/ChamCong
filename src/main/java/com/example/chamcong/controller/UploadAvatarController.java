@@ -45,12 +45,6 @@ public class UploadAvatarController {
         return RootResponse.success("upload images success", userBusiness.uploadImage(file));
     }
 
-    @GetMapping("/images/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable String fileName) throws IOException {
-        byte[] imageData = userBusiness.downloadImage(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
-    }
+
 
 }

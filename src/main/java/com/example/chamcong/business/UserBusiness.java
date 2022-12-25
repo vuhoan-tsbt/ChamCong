@@ -66,7 +66,7 @@ UserBusiness extends BaseBusiness {
         response.setEmail(user.getEmail());
         response.setStaffCode(user.getStaffCode());
         response.setAddress(user.getAddress());
-        response.setAvatar(String.format("http://localhost:8081/avatar/api/images/%s",user.getNameAvatar()));
+        response.setAvatar(String.format("http://localhost:8081/%s",user.getNameAvatar()));
         response.setDateOfBirth(user.getDateOfBirth());
         response.setPhone(user.getPhone());
         response.setDepartment(user.getDepartment().getDepartment());
@@ -138,15 +138,15 @@ UserBusiness extends BaseBusiness {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
-        // User user = getCurrentUser();
+         User user = getCurrentUser();
         String name = file.getOriginalFilename().split("[.]")[0] + UUID.randomUUID();
         String type = file.getOriginalFilename().split("[.]")[1];
         String fileName = name + "." + type;
         String filePath = root + fileName;
         avatarService.saveFileFolder(file,fileName);
-        // user.setAvatar(filePath);
-        // user.setNameAvatar(fileName);
-        // userRepository.save(user);
+         user.setAvatar(filePath);
+         user.setNameAvatar(fileName);
+         userRepository.save(user);
         return filePath;
     }
 
