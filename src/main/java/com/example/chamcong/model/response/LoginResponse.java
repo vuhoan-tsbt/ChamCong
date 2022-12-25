@@ -12,6 +12,7 @@ public class LoginResponse {
 
     private String refreshToken;
 
+    private Integer id;
     private String email;
     private String fullName;
     private String role;
