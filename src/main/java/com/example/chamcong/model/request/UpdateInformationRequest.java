@@ -12,10 +12,11 @@ import javax.validation.constraints.Size;
 @Accessors(chain = true)
 public class UpdateInformationRequest {
 
-
     @NotBlank(message = Messages.MES006)
     @Size(min = 3, max = 100, message = Messages.MES009)
     private String fullName;
+
+    private String avatar;
 
     @NotBlank(message = Messages.MES007)
     @Pattern(regexp = "^((19|2[0-9])[0-9]{2})-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", message = Messages.MES008)
@@ -26,9 +27,7 @@ public class UpdateInformationRequest {
     private String address;
 
     @NotBlank(message = Messages.MES023)
-    @Size(min =10, max =10, message = Messages.MES024)
+    @Size(min = 10, max = 10, message = Messages.MES024)
     private String phone;
-
-
 
 }

@@ -80,6 +80,7 @@ UserBusiness extends BaseBusiness {
         user.setDateOfBirth(input.getDateOfBirth());
         user.setAddress(input.getAddress());
         user.setPhone(input.getPhone());
+        user.setAvatar(input.getAvatar());
         userRepository.save(user);
         return new IdResponse(user.getId());
     }
@@ -137,15 +138,15 @@ UserBusiness extends BaseBusiness {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
-        User user = getCurrentUser();
+        // User user = getCurrentUser();
         String name = file.getOriginalFilename().split("[.]")[0] + UUID.randomUUID();
         String type = file.getOriginalFilename().split("[.]")[1];
         String fileName = name + "." + type;
         String filePath = root + fileName;
         avatarService.saveFileFolder(file,fileName);
-        user.setAvatar(filePath);
-        user.setNameAvatar(fileName);
-        userRepository.save(user);
+        // user.setAvatar(filePath);
+        // user.setNameAvatar(fileName);
+        // userRepository.save(user);
         return filePath;
     }
 
