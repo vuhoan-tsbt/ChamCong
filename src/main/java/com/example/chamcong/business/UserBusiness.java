@@ -29,8 +29,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class
-UserBusiness extends BaseBusiness {
+public class UserBusiness extends BaseBusiness {
 
     private final UserRepository userRepository;
 
@@ -42,8 +41,8 @@ UserBusiness extends BaseBusiness {
 
     private final AvatarService avatarService;
 
-
-    public UserBusiness(UserRepository userRepository, HashUtils hashUtils, DepartmentRepository departmentRepository, NewsRepository newsRepository, AvatarService avatarService) {
+    public UserBusiness(UserRepository userRepository, HashUtils hashUtils, DepartmentRepository departmentRepository,
+            NewsRepository newsRepository, AvatarService avatarService) {
         this.userRepository = userRepository;
         this.hashUtils = hashUtils;
         this.departmentRepository = departmentRepository;
@@ -51,22 +50,22 @@ UserBusiness extends BaseBusiness {
         this.avatarService = avatarService;
     }
 
-
     public User getCurrentUser() {
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
-    private final String root = "Avatar\\";
 
-    private final Path rootPath = Path.of(("Avatar"));
+    private final String root = "Avatar/";
 
-    public ProfileUserResponse profileEmployee(){
+    private final Path rootPath = Path.of(root);
+
+    public ProfileUserResponse profileEmployee() {
         User user = getCurrentUser();
         ProfileUserResponse response = new ProfileUserResponse();
         response.setFullName(user.getFullName());
         response.setEmail(user.getEmail());
         response.setStaffCode(user.getStaffCode());
         response.setAddress(user.getAddress());
-        response.setAvatar(String.format("http://localhost:8081/%s",user.getNameAvatar()));
+        response.setAvatar(String.format("http://localhost:8081/get-image/%s", user.getAvatar()));
         response.setDateOfBirth(user.getDateOfBirth());
         response.setPhone(user.getPhone());
         response.setDepartment(user.getDepartment().getDepartment());
@@ -84,6 +83,7 @@ UserBusiness extends BaseBusiness {
         userRepository.save(user);
         return new IdResponse(user.getId());
     }
+
     public IdResponse chainPassword(ChainPasswordRequest input) {
         User userLogin = getCurrentUser();
         Optional<User> optUser = userRepository.findByIdPassword(userLogin.getId());
@@ -107,7 +107,7 @@ UserBusiness extends BaseBusiness {
             return dto1;
         }).collect(Collectors.toList());
 
-        return  dto;
+        return dto;
     }
 
     public List<NewsDTO> news() {
@@ -121,8 +121,8 @@ UserBusiness extends BaseBusiness {
         return newsDTO;
     }
 
-    public List<UserDTO>  listStaff() {
-        List<User> users  = userRepository.findUser();
+    public List<UserDTO> listStaff() {
+        List<User> users = userRepository.findUser();
         List<UserDTO> list = users.stream().map(user -> {
             UserDTO dto = new UserDTO();
             dto.setId(user.getId());
@@ -138,29 +138,29 @@ UserBusiness extends BaseBusiness {
     }
 
     public String uploadImage(MultipartFile file) throws IOException {
-         User user = getCurrentUser();
+        // User user = getCurrentUser();
         String name = file.getOriginalFilename().split("[.]")[0] + UUID.randomUUID();
         String type = file.getOriginalFilename().split("[.]")[1];
         String fileName = name + "." + type;
-        String filePath = root + fileName;
-        avatarService.saveFileFolder(file,fileName);
-         user.setAvatar(filePath);
-         user.setNameAvatar(fileName);
-         userRepository.save(user);
-        return filePath;
+        String filePath = rootPath + fileName;
+        avatarService.saveFileFolder(file, fileName);
+        // user.setAvatar(filePath);
+        // user.setNameAvatar(fileName);
+        // userRepository.save(user);
+        return fileName;
     }
 
     public byte[] downloadImage(String fileName) throws IOException {
-        User fileData = getCurrentUser();
-        String filePath = fileData.getAvatar();
-        byte[] images = Files.readAllBytes(new File(filePath).toPath());
+        // User fileData = getCurrentUser();
+        // String filePath = fileData.getAvatar();
+        byte[] images = Files.readAllBytes(Path.of(("Avatar")).resolve(fileName));
+        String a = "a" + "121";
         return images;
     }
 
-
     public UserDTOId getUserId(Integer id) {
         Optional<User> optUser = userRepository.findById(id);
-        if(optUser.isEmpty()){
+        if (optUser.isEmpty()) {
             throw new DataNotFoundException("tài khoản không tồn tại");
         }
         UserDTOId dtoId = new UserDTOId();

@@ -24,8 +24,8 @@ public class NewsController {
         this.newsBusiness = newsBusiness;
     }
 
-    @GetMapping("/list-news")
-    public RootResponse<PageResponse<NewsResponse>> listNews(@ModelAttribute NewsRequest input){
+    @PostMapping("/list-news")
+    public RootResponse<PageResponse<NewsResponse>> listNews(@RequestBody NewsRequest input){
         return RootResponse.success("Danh sách tin tức",newsBusiness.listNews(input));
     }
     @PostMapping("/create-news")

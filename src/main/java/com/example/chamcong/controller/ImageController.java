@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/get-image", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 public class ImageController {
     private final UserBusiness userBusiness;
@@ -20,7 +20,7 @@ public class ImageController {
         this.userBusiness = userBusiness;
     }
 
-    @GetMapping("{fileName}")
+    @GetMapping("/{fileName}")
     public ResponseEntity<?> downloadImage(@PathVariable String fileName) throws IOException {
         byte[] imageData = userBusiness.downloadImage(fileName);
         return ResponseEntity.status(HttpStatus.OK)

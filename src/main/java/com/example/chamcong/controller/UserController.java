@@ -44,20 +44,24 @@ public class UserController {
         return RootResponse.success("Đổi Mật Khẩu Thành Công.", userBusiness.chainPassword(input));
     }
 
+    // miss
     @GetMapping("/department")
     public RootResponse<List<DepartmentDTO>> department(){
         return RootResponse.success("",userBusiness.department());
     }
 
+    // miss
     @GetMapping("/news")
     public RootResponse<List<NewsDTO>> news(){
         return RootResponse.success("",userBusiness.news());
     }
 
+    // miss
     @GetMapping("/list-employee")
     public RootResponse<List<UserDTO>> listStaff(){
         return RootResponse.success("",userBusiness.listStaff());
     }
+    
     @GetMapping("/get-user/{id}")
     public RootResponse<UserDTOId> getUserId(@PathVariable("id") Integer id){
         return  RootResponse.success("",userBusiness.getUserId(id));

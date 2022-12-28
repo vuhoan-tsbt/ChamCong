@@ -28,6 +28,7 @@ public class AppConfig {
         return mailSender;
     }
 
+
     @Bean
     Model model() {
 

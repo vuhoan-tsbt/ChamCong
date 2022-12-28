@@ -26,18 +26,20 @@ public class DotInformationController {
         this.dotInformationBusiness = dotInformationBusiness;
     }
 
-    @GetMapping("/dot_information")
-    public RootResponse<DotInformationResponse> dotInformation(@ModelAttribute DotInformationRequest input) {
+    @PostMapping("/dot_information")
+    public RootResponse<DotInformationResponse> dotInformation(@RequestBody DotInformationRequest input) {
         return RootResponse.success("Danh sách", dotInformationBusiness.dotInformation(input));
     }
+
     @PostMapping("/salary")
     public RootResponse<SalaryEmployeeResponse> salary(@RequestBody @Valid SalaryEmployeeRequest input) {
         return RootResponse.success("Lương của nhân viên là ", dotInformationBusiness.salary(input));
     }
-    @GetMapping("/list-salary")
-    public RootResponse<PageResponse<ListSalaryEmployeeResponse>> listSalaryEmployee(@ModelAttribute @Valid ListSalaryEmployeeRequest input){
-        return RootResponse.success("Danh sách lương nhân viên",dotInformationBusiness.listSalaryEmployee(input));
-    }
 
+    @PostMapping("/list-salary")
+    public RootResponse<PageResponse<ListSalaryEmployeeResponse>> listSalaryEmployee(
+            @RequestBody @Valid ListSalaryEmployeeRequest input) {
+        return RootResponse.success("Danh sách lương nhân viên", dotInformationBusiness.listSalaryEmployee(input));
+    }
 
 }
