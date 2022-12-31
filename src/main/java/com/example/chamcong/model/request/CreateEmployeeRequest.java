@@ -17,9 +17,9 @@ public class CreateEmployeeRequest {
     @Size(min = 12, max = 100, message = Messages.MES010)
     private String email;
 
-    @NotBlank(message = Messages.MES006)
-    @Size(min = 3, max = 100, message = Messages.MES009)
-    private String fullName;
+//    @NotBlank(message = Messages.MES006)
+//    @Size(min = 3, max = 100, message = Messages.MES009)
+//    private String fullName;
 
 
     @NotNull(message = Messages.MES015)

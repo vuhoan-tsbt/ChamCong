@@ -9,4 +9,6 @@ public interface CustomerSalaryRepository {
     List<Salary> getAllSalaryUser(ListSalaryEmployeeRequest input);
 
     Integer findAllSalaryUser(ListSalaryEmployeeRequest input);
+
+    List<Salary> getSalaryUser(Integer userId);
 }

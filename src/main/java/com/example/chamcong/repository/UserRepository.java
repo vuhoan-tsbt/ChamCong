@@ -44,6 +44,7 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
 
 
     Optional<User> findByAvatar(String fileName);
+    Boolean existsByEmail(String email);
 
 
 }

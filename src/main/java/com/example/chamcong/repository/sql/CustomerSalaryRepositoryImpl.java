@@ -37,4 +37,10 @@ public class CustomerSalaryRepositoryImpl implements CustomerSalaryRepository{
         return count;
 
     }
+
+    @Override
+    public List<Salary> getSalaryUser(Integer userId) {
+        String sql = "select * from salary where user_id = " +userId;
+        return entityManager.createNativeQuery(sql, Salary.class).getResultList();
+    }
 }

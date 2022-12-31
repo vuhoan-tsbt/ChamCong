@@ -37,8 +37,9 @@ public class UserAdminBusiness extends BaseBusiness {
     private final UserLoginHistoryRepository userLoginHistoryRepository;
 
     private final TimeKeepingRepository timeKeepingRepository;
+    private final SalaryRepository salaryRepository;
 
-    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils, DepartmentRepository departmentRepository, PositionRepository positionRepository, UserRoleRepository userRoleRepository, UserLoginHistoryRepository userLoginHistoryRepository, TimeKeepingRepository timeKeepingRepository) {
+    public UserAdminBusiness(UserRepository userRepository, Mapper mapper, HashUtils hashUtils, DepartmentRepository departmentRepository, PositionRepository positionRepository, UserRoleRepository userRoleRepository, UserLoginHistoryRepository userLoginHistoryRepository, TimeKeepingRepository timeKeepingRepository, SalaryRepository salaryRepository) {
         this.userRepository = userRepository;
         this.mapper = mapper;
         this.hashUtils = hashUtils;
@@ -47,6 +48,7 @@ public class UserAdminBusiness extends BaseBusiness {
         this.userRoleRepository = userRoleRepository;
         this.userLoginHistoryRepository = userLoginHistoryRepository;
         this.timeKeepingRepository = timeKeepingRepository;
+        this.salaryRepository = salaryRepository;
     }
 
     public String Numbers(long numbers) {
@@ -131,15 +133,19 @@ public class UserAdminBusiness extends BaseBusiness {
             throw new DataNotFoundException("User Not Found");
         }
         List<UserLoginHistory> loginHistory = userLoginHistoryRepository.findAllUserLoginHistory(id);
-        if(loginHistory == null){
+        if (loginHistory == null) {
             throw new DataNotFoundException("Không có lịch sử đăng nhập");
         }
-        for(UserLoginHistory userLoginHistory :loginHistory){
+        for (UserLoginHistory userLoginHistory : loginHistory) {
             userLoginHistoryRepository.delete(userLoginHistory);
         }
         List<TimeKeeping> byUserId = timeKeepingRepository.findByIdUser(id);
-        if(byUserId.size() >0){
-            throw new DataNotFoundException("Cần xóa thông tin về chấm công và chi tiết chấm công  trước và xóa thông tin về lương của nhân viên này ");
+        if (byUserId.size() > 0) {
+            throw new DataNotFoundException("Cần xóa thông tin về chấm công nhân viên này ");
+        }
+        List<Salary> salaries = salaryRepository.getSalaryUser(id);
+        if (salaries.size() > 0){
+            throw  new DataNotFoundException("Cần xóa thông tin lương của nhân viên này");
         }
         userRepository.delete(user);
         return new IdResponse(user.getId());

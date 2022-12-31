@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -24,5 +25,7 @@ public class TimeKeeping  {
     private String radixCode;
 
     private String months;
+    private LocalDateTime entryTime;
 
+    private LocalDateTime timeout;
 }

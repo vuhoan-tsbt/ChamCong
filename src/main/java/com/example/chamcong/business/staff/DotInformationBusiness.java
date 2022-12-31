@@ -3,7 +3,7 @@ package com.example.chamcong.business.staff;
 import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.dto.TimeKeepingDTO;
 import com.example.chamcong.entity.Salary;
-import com.example.chamcong.entity.TimeKeepingDetails;
+import com.example.chamcong.entity.TimeKeeping;
 import com.example.chamcong.entity.User;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.PageResponse;
@@ -13,7 +13,6 @@ import com.example.chamcong.model.request.SalaryEmployeeRequest;
 import com.example.chamcong.model.response.DotInformationResponse;
 import com.example.chamcong.model.response.ListSalaryEmployeeResponse;
 import com.example.chamcong.model.response.SalaryEmployeeResponse;
-import com.example.chamcong.repository.TimeKeepingDetailsRepository;
 import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.repository.*;
@@ -33,16 +32,15 @@ import java.util.stream.Collectors;
 public class DotInformationBusiness extends BaseBusiness {
 
     private final TimeKeepingRepository timeKeepingRepository;
-    private final TimeKeepingDetailsRepository timeKeepingDetailsRepository;
+
     private final UserRepository userRepository;
     private final PositionRepository positionRepository;
     private final SalaryRepository salaryRepository;
     private final Mapper mapper;
 
 
-    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, TimeKeepingDetailsRepository timeKeepingDetailsRepository, UserRepository userRepository, PositionRepository positionRepository, SalaryRepository salaryRepository, Mapper mapper) {
+    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, UserRepository userRepository, PositionRepository positionRepository, SalaryRepository salaryRepository, Mapper mapper) {
         this.timeKeepingRepository = timeKeepingRepository;
-        this.timeKeepingDetailsRepository = timeKeepingDetailsRepository;
         this.userRepository = userRepository;
         this.positionRepository = positionRepository;
         this.salaryRepository = salaryRepository;
@@ -51,19 +49,19 @@ public class DotInformationBusiness extends BaseBusiness {
     }
 
     public DotInformationResponse dotInformation(DotInformationRequest input) {
-        List<TimeKeepingDetails> timeKeeping = timeKeepingDetailsRepository.getByALlTimeKeeping(input);
+        List<TimeKeeping> timeKeeping = timeKeepingRepository.getByALlTimeKeeping(input);
         DotInformationResponse response = new DotInformationResponse();
         List<TimeKeepingDTO> dtoList = new ArrayList<>();
         if (timeKeeping.size() > 0) {
-            response.setName(timeKeeping.get(0).getTimeKeeping().getUser().getFullName());
-            response.setStaffCode(timeKeeping.get(0).getTimeKeeping().getUser().getStaffCode());
+            response.setName(timeKeeping.get(0).getUser().getFullName());
+            response.setStaffCode(timeKeeping.get(0).getUser().getStaffCode());
         }
         Calendar calendar = Calendar.getInstance();
         calendar.get(Calendar.DAY_OF_MONTH);
         Date d = calendar.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        for (TimeKeepingDetails details : timeKeeping) {
+        for (TimeKeeping details : timeKeeping) {
             long a = details.getEntryTime().format(formatter).compareTo(simpleDateFormat.format(d));
             if (a < 0) {
                 details.getEntryTime();
@@ -91,7 +89,6 @@ public class DotInformationBusiness extends BaseBusiness {
         long actualSalary = 0;
         salaryHourly = (user.getPosition().getSalary()) / (input.getTotalNumberOfWorkingDaysInTheMonth()) / (input.getNumberOfHoursWorkedInADay());
         actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage();
-
         Salary salary = new Salary();
         salary.setSalaryForOneHourWork(salaryHourly);
         salary.setTotalWorkingHours(input.getTotalWorkingHours());

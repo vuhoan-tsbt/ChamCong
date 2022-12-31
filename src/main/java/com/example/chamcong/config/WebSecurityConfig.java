@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/reset-otp").permitAll()
                 .antMatchers("/api/avatar/upload_images").permitAll()
                 .antMatchers("/get-image/{fileName}").permitAll()
+                //.antMatchers("/api/meeting").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated()
                 .and().logout().deleteCookies(JWTFilter.COOKIE_NAME)

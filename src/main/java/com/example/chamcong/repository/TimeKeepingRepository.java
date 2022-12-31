@@ -14,4 +14,6 @@ public interface TimeKeepingRepository extends JpaRepository<TimeKeeping, Intege
 
     @Query("select timekeeping from TimeKeeping timekeeping where timekeeping.user =:user")
     List<TimeKeeping> getByUserId(User user);
+    @Query("select timekeepingdeatails from TimeKeeping  timekeepingdeatails where timekeepingdeatails.entryTime = :timeKeeping")
+    TimeKeeping getById(TimeKeeping timeKeeping);
 }
