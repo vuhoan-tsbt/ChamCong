@@ -164,6 +164,7 @@ public class UserBusiness extends BaseBusiness {
             throw new DataNotFoundException("tài khoản không tồn tại");
         }
         UserDTOId dtoId = new UserDTOId();
+        dtoId.setEmail(optUser.get().getEmail());
         dtoId.setFullName(optUser.get().getFullName());
         dtoId.setRole(optUser.get().getRole().getId());
         dtoId.setAvatar(optUser.get().getAvatar());

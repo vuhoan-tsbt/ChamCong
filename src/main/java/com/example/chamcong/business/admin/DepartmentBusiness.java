@@ -39,7 +39,7 @@ public class DepartmentBusiness extends BaseBusiness {
             departmentResponse.setDepartment(department.getDepartment());
             return departmentResponse;
         }).collect(Collectors.toList());
-        return PageResponse.create(totalElements,totalPages,responses);
+        return PageResponse.create(totalPages,totalElements,responses);
     }
 
     public IdDepartmentResponse createDepartment(CreateDepartmentRequest input) {

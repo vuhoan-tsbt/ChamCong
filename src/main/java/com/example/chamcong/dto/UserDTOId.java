@@ -13,6 +13,7 @@ public class UserDTOId {
 
     private String fullName;
     private String dateOfBirth;
+    private String email;
     private Integer department;
     private Integer position;
     private String avatar;
