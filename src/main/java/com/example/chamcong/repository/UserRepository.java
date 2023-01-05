@@ -18,10 +18,10 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query("select user from User user left join fetch user.role where user.email = :email")
     User getUserWithRoleByEmail(String email);
 
-    @Query("select manager from User manager where manager.email = :email")
+    @Query("select manager from User manager where manager.email = :email and  manager.loginType = 0")
     Optional<User> getByEmail(String email);
 
-    @Query("from User where email = :email and deleted=0")
+    @Query("from User where email = :email and loginType = 0 and deleted = 0")
     Optional<User> findByEmail(String email);
 
     @Query("select employee from Employee employee where employee.id = :id")
@@ -39,12 +39,9 @@ public interface UserRepository extends JpaRepository<User, Integer>, CustomerUs
     @Query("select manager from Manager manager where manager.email = :email")
     User getByEmailToken(String email);
 
-    @Query(value = "select parent from User parent where parent.phone = :phone")
+    @Query(value = "select parent from User parent where parent.phone = :phone and parent.loginType = 0")
     Optional<User> getByPhone(String phone);
 
-
-    Optional<User> findByAvatar(String fileName);
-    Boolean existsByEmail(String email);
 
 
 }

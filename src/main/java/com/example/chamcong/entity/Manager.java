@@ -17,9 +17,6 @@ import java.util.List;
 public class Manager extends User {
     private static final long serialVersionUID = 1L;
 
-    @OneToMany(mappedBy = "manager")
-
-    private List<Employee> employees;
     private String email;
     private String password;
 }

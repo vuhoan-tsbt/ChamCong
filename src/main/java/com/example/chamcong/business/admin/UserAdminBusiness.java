@@ -3,6 +3,7 @@ package com.example.chamcong.business.admin;
 import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.entity.*;
 import com.example.chamcong.enumtation.AccStatusEnum;
+import com.example.chamcong.enumtation.LoginTypeEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.CreateEmployeeRequest;
 import com.example.chamcong.model.request.UpdateEmployeeRequest;
@@ -109,6 +110,7 @@ public class UserAdminBusiness extends BaseBusiness {
         employee.setPosition(position);
         employee.setStaffCode("STAFF" + Numbers(number));
         employee.setStatus(1);
+        employee.setLoginType(0);
         employee.setPassword(hashUtils.hash(employee.getPassword()));
         userRepository.save(employee);
         return new IdResponse(employee.getId());
@@ -133,7 +135,7 @@ public class UserAdminBusiness extends BaseBusiness {
         if (user == null) {
             throw new DataNotFoundException("User Not Found");
         }
-        user.setStatus(AccStatusEnum.DELETED.getValue());
+        user.setLoginType(LoginTypeEnum.DELETED.getValue());
         userRepository.save(user);
         return new IdResponse(user.getId());
     }

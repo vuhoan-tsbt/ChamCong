@@ -19,7 +19,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> findAllByCondition(SearchUserRequest input) {
-        String sql = "select * from user WHERE 1=1 and status = 1 ";
+        String sql = "select * from user WHERE 1=1 and login_type = 0 ";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
             sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%"
                     + input.getSearchUser() + "%'";
@@ -36,12 +36,11 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     @Override
     public Integer getAllByCondition(SearchUserRequest input) {
-        String sql = "select count(*) from user WHERE 1=1";
+        String sql = "select count(*) from user WHERE 1=1 and login_type = 0 ";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
             sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%"
                     + input.getSearchUser() + "%'";
         }
-
         Query query = entityManager.createNativeQuery(sql);
         int count = ((Number) query.getSingleResult()).intValue();
         return count;
@@ -74,7 +73,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     @Override
     public List<User> findUser() {
-        String sql = "select * from user";
+        String sql = "select * from user where login_type = 0 ";
 
         return entityManager.createNativeQuery(sql, User.class).getResultList();
     }

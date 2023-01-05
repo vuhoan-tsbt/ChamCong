@@ -50,6 +50,8 @@ public class User extends BaseUser {
 
     private String phone;
 
+    private Integer loginType;
+
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name = "department_id")
