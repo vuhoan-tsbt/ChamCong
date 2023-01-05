@@ -9,7 +9,7 @@ public interface CustomerTimeKeepingRepository {
 
     List<TimeKeeping> findByIdUser(Integer id);
     TimeKeeping getEntryTime(Integer userId);
-    TimeKeeping getTimeKeeping(Integer id);
+    List<TimeKeeping> getTimeKeeping(Integer id);
     List<TimeKeeping> getByALlTimeKeeping(DotInformationRequest input);
 
 

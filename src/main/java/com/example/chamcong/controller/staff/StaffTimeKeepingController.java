@@ -29,7 +29,7 @@ public class StaffTimeKeepingController {
         return RootResponse.success("Tạm Biệt Bạn", staffTimeKeepingBusiness.timeOutKeeping());
     }
     @GetMapping("/get-keeping")
-    public RootResponse<TimeKeepingDetailsDTO> getTimeKeeping(){
+    public RootResponse<?> getTimeKeeping(){
         return RootResponse.success("Bảng chấm công ",staffTimeKeepingBusiness.getTimeKeeping());
     }
 

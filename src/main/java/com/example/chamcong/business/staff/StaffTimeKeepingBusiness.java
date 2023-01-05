@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,12 +41,13 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         timeKeeping.setRadixCode(radixCode);
         timeKeeping.setUser(user);
         Calendar calendar = Calendar.getInstance();
-        int months = calendar.get(Calendar.MONTH ) + 1;
+        int months = calendar.get(Calendar.MONTH) + 1;
         timeKeeping.setMonths(String.valueOf(months));
         timeKeeping.setEntryTime(LocalDateTime.now());
         timeKeepingRepository.save(timeKeeping);
         return new TimeKeepingEntryResponse(user.getId(), radixCode);
     }
+
     public TimeKeepingOutResponse timeOutKeeping() {
         User user = getCurrentUser();
         TimeKeeping timeKeeping = timeKeepingRepository.getEntryTime(user.getId());
@@ -54,12 +56,17 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         return new TimeKeepingOutResponse(user.getId());
     }
 
-    public TimeKeepingDetailsDTO getTimeKeeping() {
+    public Integer getTimeKeeping() {
         User user = getCurrentUser();
-        TimeKeeping keeping = timeKeepingRepository.getTimeKeeping(user.getId());
-        TimeKeepingDetailsDTO dto = new TimeKeepingDetailsDTO();
-        dto.setEntryTime(String.valueOf(keeping.getEntryTime()));
-        dto.setTimeout(String.valueOf(keeping.getTimeout()));
-        return dto;
+        List<TimeKeepingDetailsDTO> result = new ArrayList<>();
+        for (TimeKeeping timeK :
+                timeKeepingRepository.getTimeKeeping(user.getId())) {
+            TimeKeepingDetailsDTO dto = new TimeKeepingDetailsDTO();
+            dto.setEntryTime(String.valueOf(timeK.getEntryTime()));
+            dto.setTimeout(String.valueOf(timeK.getTimeout()));
+            result.add(dto);
+        }
+        ;
+        return result.isEmpty() ? 0 : (result.size() == 1 ? 1 : 2);
     }
 }

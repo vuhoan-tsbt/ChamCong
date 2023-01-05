@@ -29,10 +29,10 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
     }
 
     @Override
-    public TimeKeeping getTimeKeeping(Integer id) {
-        String sql = "select * from user a left join timekeeping b on a.id = b.user_id where a.id = " + id;
-        Query query = entityManager.createNativeQuery(sql,TimeKeeping.class);
-        return (TimeKeeping) query.getSingleResult();
+    public List<TimeKeeping> getTimeKeeping(Integer id) {
+        String sql = "SELECT * FROM timekeeping t left join user u on t.user_id = u.id where date(t.entry_time) = date(now()) and u.id = " + id;
+
+        return  entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
 
     @Override
