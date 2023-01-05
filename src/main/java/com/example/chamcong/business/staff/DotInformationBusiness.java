@@ -87,8 +87,8 @@ public class DotInformationBusiness extends BaseBusiness {
         user.getPosition().getWage();
         long salaryHourly = 0;
         long actualSalary = 0;
-        salaryHourly = (user.getPosition().getSalary()) / (input.getTotalNumberOfWorkingDaysInTheMonth()) / (input.getNumberOfHoursWorkedInADay());
-        actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage();
+        salaryHourly = (user.getPosition().getSalary()) / (input.getTotalNumberOfWorkingDaysInTheMonth()) / (input.getNumberOfHoursWorkedInADay()) ;
+        actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage() -(user.getPosition().getSalary()/10);
         Salary salary = new Salary();
         salary.setSalaryForOneHourWork(salaryHourly);
         salary.setTotalWorkingHours(input.getTotalWorkingHours());
@@ -101,6 +101,7 @@ public class DotInformationBusiness extends BaseBusiness {
         salaryEmployeeResponse.setName(user.getFullName());
         salaryEmployeeResponse.setStaffCode(input.getStaffCode());
         salaryEmployeeResponse.setActualGrossSalary(actualSalary);
+        salaryEmployeeResponse.setMonths(salary.getMonths().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
         return salaryEmployeeResponse;
     }
 
