@@ -4,7 +4,8 @@ package com.example.chamcong.enumtation;
 public enum AccStatusEnum {
     CREATED("CREATED",0),
     ACTIVATED("ACTIVATED",1),
-    BANNED("BANNED",2);
+    BANNED("BANNED",2),
+    DELETED("DELETED",3);
 
     private String name;
     private Integer value;

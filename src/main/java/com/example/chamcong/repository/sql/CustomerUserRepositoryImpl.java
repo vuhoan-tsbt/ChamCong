@@ -19,7 +19,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
     @SuppressWarnings("unchecked")
     @Override
     public List<User> findAllByCondition(SearchUserRequest input) {
-        String sql = "select * from user WHERE 1=1";
+        String sql = "select * from user WHERE 1=1 and status = 1 ";
         if (input.getSearchUser() != null && !input.getSearchUser().trim().equals("")) {
             sql += " AND email like '%" + input.getSearchUser() + "%'" + " OR " + " full_name   like '%"
                     + input.getSearchUser() + "%'";

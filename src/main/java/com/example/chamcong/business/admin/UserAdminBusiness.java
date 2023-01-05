@@ -2,6 +2,7 @@ package com.example.chamcong.business.admin;
 
 import com.example.chamcong.business.BaseBusiness;
 import com.example.chamcong.entity.*;
+import com.example.chamcong.enumtation.AccStatusEnum;
 import com.example.chamcong.exception.data.DataNotFoundException;
 import com.example.chamcong.model.request.CreateEmployeeRequest;
 import com.example.chamcong.model.request.UpdateEmployeeRequest;
@@ -132,22 +133,8 @@ public class UserAdminBusiness extends BaseBusiness {
         if (user == null) {
             throw new DataNotFoundException("User Not Found");
         }
-        List<UserLoginHistory> loginHistory = userLoginHistoryRepository.findAllUserLoginHistory(id);
-        if (loginHistory == null) {
-            throw new DataNotFoundException("Không có lịch sử đăng nhập");
-        }
-        for (UserLoginHistory userLoginHistory : loginHistory) {
-            userLoginHistoryRepository.delete(userLoginHistory);
-        }
-        List<TimeKeeping> byUserId = timeKeepingRepository.findByIdUser(id);
-        if (byUserId.size() > 0) {
-            throw new DataNotFoundException("Cần xóa thông tin về chấm công nhân viên này ");
-        }
-        List<Salary> salaries = salaryRepository.getSalaryUser(id);
-        if (salaries.size() > 0){
-            throw  new DataNotFoundException("Cần xóa thông tin lương của nhân viên này");
-        }
-        userRepository.delete(user);
+        user.setStatus(AccStatusEnum.DELETED.getValue());
+        userRepository.save(user);
         return new IdResponse(user.getId());
     }
 
