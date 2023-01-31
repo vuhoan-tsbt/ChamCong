@@ -69,7 +69,7 @@ public class    ZoomController {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
         Date creation = new Date(System.currentTimeMillis());
         Date tokenExpiry = new Date(System.currentTimeMillis() + (1000 * 60));
-        String zoomApiSecret = "zH2IqUgYKPIkMl7oVnPwJkbyUhRFP8mmRX0z";
+        String zoomApiSecret = "mOEkOkYddWhHHCr4Nhsm4WpR4ntcG79sCe4w";
 
         Key key = Keys.hmacShaKeyFor(zoomApiSecret.getBytes());
         return Jwts.builder()
