@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -74,5 +75,19 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         }
         ;
         return result.isEmpty() ? 0 : (result.size() == 1 ? 1 : 2);
+    }
+    public List<TimeKeepingDetailsDTO> keepingUser(String months, Integer userId) {
+        String monthss = String.valueOf(LocalDateTime.now().getMonth());
+        if(monthss != null){
+            monthss = months;
+        }
+        List<TimeKeeping> list = timeKeepingRepository.getTimeKeepingUser(monthss,userId);
+        List<TimeKeepingDetailsDTO> dtoList = list.stream().map(keeping -> {
+            TimeKeepingDetailsDTO dto = new TimeKeepingDetailsDTO();
+            dto.setEntryTime(String.valueOf(keeping.getEntryTime()));
+            dto.setTimeout(String.valueOf(keeping.getTimeout()));
+            return dto;
+        }).collect(Collectors.toList());
+        return  dtoList;
     }
 }

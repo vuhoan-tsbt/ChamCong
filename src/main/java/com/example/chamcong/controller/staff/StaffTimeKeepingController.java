@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.List;
 
 @RequestMapping(value = "/api/timekeeping", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
@@ -33,6 +34,10 @@ public class StaffTimeKeepingController {
     @GetMapping("/get-keeping")
     public RootResponse<?> getTimeKeeping(){
         return RootResponse.success("Bảng chấm công ",staffTimeKeepingBusiness.getTimeKeeping());
+    }
+    @GetMapping("/keeping-user")
+    public RootResponse<List<TimeKeepingDetailsDTO>> keepingUser(@RequestParam(required = false) String months, @RequestParam Integer userId){
+        return RootResponse.success("Lisst chấm công",staffTimeKeepingBusiness.keepingUser(months, userId));
     }
 
 

@@ -42,6 +42,13 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
 
         return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
+    @Override
+    public List<TimeKeeping> getTimeKeepingUser(String months, Integer userId) {
+        String sql = "select * from timekeeping where 1=1";
+        sql += " and user_id = " + userId;
+        sql += " and months = '" + months + "'";
+        return entityManager.createNativeQuery(sql,TimeKeeping.class).getResultList();
+    }
 
     @Override
     public Integer getWorkingTime(Integer userId, String months) {
