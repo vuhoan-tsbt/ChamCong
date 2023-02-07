@@ -28,4 +28,6 @@ public class TimeKeeping  {
     private LocalDateTime entryTime;
 
     private LocalDateTime timeout;
+
+    private Double workingTime;
 }

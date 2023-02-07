@@ -43,5 +43,10 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
         return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
 
+    @Override
+    public Integer getWorkingTime(Integer userId, String months) {
+        return null;
+    }
+
 
 }

@@ -9,6 +9,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+
 @RequestMapping(value = "/api/timekeeping", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
 @PreAuthorize("hasAnyAuthority('STAFF','EDITER')")
@@ -25,7 +27,7 @@ public class StaffTimeKeepingController {
 
     }
     @PostMapping("/out")
-    public RootResponse<TimeKeepingOutResponse> timeOutKeeping(){
+    public RootResponse<TimeKeepingOutResponse> timeOutKeeping() throws ParseException {
         return RootResponse.success("Tạm Biệt Bạn", staffTimeKeepingBusiness.timeOutKeeping());
     }
     @GetMapping("/get-keeping")

@@ -8,26 +8,27 @@ import com.example.chamcong.model.response.TimeKeepingOutResponse;
 import com.example.chamcong.model.response.TimeKeepingEntryResponse;
 import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.utils.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class StaffTimeKeepingBusiness extends BaseBusiness {
 
     private final StringUtils stringUtils;
 
     private final TimeKeepingRepository timeKeepingRepository;
-
-
-    public StaffTimeKeepingBusiness(StringUtils stringUtils, TimeKeepingRepository timeKeepingRepository) {
-        this.stringUtils = stringUtils;
-        this.timeKeepingRepository = timeKeepingRepository;
-    }
 
 
     public User getCurrentUser() {
@@ -44,14 +45,19 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
         int months = calendar.get(Calendar.MONTH) + 1;
         timeKeeping.setMonths(String.valueOf(months));
         timeKeeping.setEntryTime(LocalDateTime.now());
+        timeKeeping.setWorkingTime(0D);
         timeKeepingRepository.save(timeKeeping);
         return new TimeKeepingEntryResponse(user.getId(), radixCode);
     }
 
-    public TimeKeepingOutResponse timeOutKeeping() {
+    public TimeKeepingOutResponse timeOutKeeping() throws ParseException {
         User user = getCurrentUser();
         TimeKeeping timeKeeping = timeKeepingRepository.getEntryTime(user.getId());
         timeKeeping.setTimeout(LocalDateTime.now());
+        Long working = timeKeeping.getTimeout().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                - timeKeeping.getEntryTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        Double hours = Double.valueOf(working / 1000 / 3600 - 1);
+        timeKeeping.setWorkingTime(hours);
         timeKeepingRepository.save(timeKeeping);
         return new TimeKeepingOutResponse(user.getId());
     }

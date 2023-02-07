@@ -12,5 +12,7 @@ public interface CustomerTimeKeepingRepository {
     List<TimeKeeping> getTimeKeeping(Integer id);
     List<TimeKeeping> getByALlTimeKeeping(DotInformationRequest input);
 
+    Integer getWorkingTime (Integer userId, String months);
+
 
 }
