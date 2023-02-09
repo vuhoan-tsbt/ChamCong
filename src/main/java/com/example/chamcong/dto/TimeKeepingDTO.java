@@ -12,4 +12,7 @@ public class TimeKeepingDTO {
     private String entryTime;
 
     private String timeout;
+
+    private Double workingTime;
+
 }

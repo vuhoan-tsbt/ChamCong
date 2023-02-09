@@ -86,6 +86,7 @@ public class StaffTimeKeepingBusiness extends BaseBusiness {
             TimeKeepingDetailsDTO dto = new TimeKeepingDetailsDTO();
             dto.setEntryTime(String.valueOf(keeping.getEntryTime()));
             dto.setTimeout(String.valueOf(keeping.getTimeout()));
+            dto.setWorkingTime(keeping.getWorkingTime());
             return dto;
         }).collect(Collectors.toList());
         return  dtoList;

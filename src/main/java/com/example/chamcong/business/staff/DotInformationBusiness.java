@@ -16,6 +16,7 @@ import com.example.chamcong.model.response.SalaryEmployeeResponse;
 import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
@@ -29,24 +30,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class DotInformationBusiness extends BaseBusiness {
 
     private final TimeKeepingRepository timeKeepingRepository;
 
     private final UserRepository userRepository;
-    private final PositionRepository positionRepository;
+
     private final SalaryRepository salaryRepository;
-    private final Mapper mapper;
 
-
-    public DotInformationBusiness(TimeKeepingRepository timeKeepingRepository, UserRepository userRepository, PositionRepository positionRepository, SalaryRepository salaryRepository, Mapper mapper) {
-        this.timeKeepingRepository = timeKeepingRepository;
-        this.userRepository = userRepository;
-        this.positionRepository = positionRepository;
-        this.salaryRepository = salaryRepository;
-
-        this.mapper = mapper;
-    }
 
     public DotInformationResponse dotInformation(DotInformationRequest input) {
         List<TimeKeeping> timeKeeping = timeKeepingRepository.getByALlTimeKeeping(input);
@@ -70,6 +62,7 @@ public class DotInformationBusiness extends BaseBusiness {
                 dto.setDay(details.getEntryTime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
                 dto.setEntryTime(details.getEntryTime().toString());
                 dto.setTimeout(details.getTimeout().toString());
+                dto.setWorkingTime(details.getWorkingTime());
                 dtoList.add(dto);
             }
         }
