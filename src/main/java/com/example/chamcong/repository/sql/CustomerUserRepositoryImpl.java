@@ -48,8 +48,7 @@ public class CustomerUserRepositoryImpl implements CustomerUserRepository {
 
     @Override
     public User getSalary(String staffCode) {
-        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '"
-                + staffCode + "'";
+        String sql = " select * from user a inner join position b on a.position_id = b.id where a.staff_code = '" + staffCode + "'";
 
         Query query = entityManager.createNativeQuery(sql, User.class);
         return (User) query.getSingleResult();

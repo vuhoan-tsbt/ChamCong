@@ -1,6 +1,7 @@
 package com.example.chamcong.business.staff;
 
 import com.example.chamcong.business.BaseBusiness;
+import com.example.chamcong.dto.KeepingStaffDayNowDTO;
 import com.example.chamcong.dto.TimeKeepingDTO;
 import com.example.chamcong.entity.Salary;
 import com.example.chamcong.entity.TimeKeeping;
@@ -17,8 +18,8 @@ import com.example.chamcong.repository.TimeKeepingRepository;
 import com.example.chamcong.repository.UserRepository;
 import com.example.chamcong.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.dozer.Mapper;
 import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 
 import java.time.LocalDateTime;
@@ -78,8 +79,8 @@ public class DotInformationBusiness extends BaseBusiness {
         }
         user.getPosition().getSalary();
         user.getPosition().getWage();
-        long salaryHourly = 0;
-        long actualSalary = 0;
+        long salaryHourly ;
+        long actualSalary ;
         salaryHourly = (user.getPosition().getSalary()) / (input.getTotalNumberOfWorkingDaysInTheMonth()) / (input.getNumberOfHoursWorkedInADay()) ;
         actualSalary = salaryHourly * input.getTotalWorkingHours() + user.getPosition().getWage() -(user.getPosition().getSalary()/10);
         Salary salary = new Salary();
@@ -110,5 +111,18 @@ public class DotInformationBusiness extends BaseBusiness {
             return response;
         }).collect(Collectors.toList());
         return PageResponse.create(totalPages,totalElements,responses);
+    }
+
+    public List<KeepingStaffDayNowDTO> keepingUserDayNow(String staffCode) {
+        List<TimeKeeping> list = timeKeepingRepository.getKeepingUserDayNow(staffCode);
+        return list.stream().map(kUser -> {
+            KeepingStaffDayNowDTO dto = new KeepingStaffDayNowDTO();
+            dto.setFullName(kUser.getUser().getFullName());
+            dto.setStaffCode(kUser.getUser().getStaffCode());
+            dto.setEntryTime(String.valueOf(kUser.getEntryTime()));
+            dto.setTimeout(String.valueOf(kUser.getTimeout()));
+            dto.setWorkingTime(kUser.getWorkingTime());
+            return dto;
+        }).collect(Collectors.toList());
     }
 }

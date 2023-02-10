@@ -24,7 +24,7 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
     @Override
     public TimeKeeping getEntryTime(Integer userId) {
         String sql = "select * from timekeeping where day(entry_time) = day(now()) and user_id = " + userId;
-        Query query = entityManager.createNativeQuery(sql,TimeKeeping.class);
+        Query query = entityManager.createNativeQuery(sql, TimeKeeping.class);
         return (TimeKeeping) query.getSingleResult();
     }
 
@@ -32,7 +32,7 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
     public List<TimeKeeping> getTimeKeeping(Integer id) {
         String sql = "SELECT * FROM timekeeping t left join user u on t.user_id = u.id where date(t.entry_time) = date(now()) and u.id = " + id;
 
-        return  entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
+        return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
 
     @Override
@@ -42,17 +42,28 @@ public class CustomerTimeKeepingRepositoryImpl implements CustomerTimeKeepingRep
 
         return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
+
     @Override
     public List<TimeKeeping> getTimeKeepingUser(String months, Integer userId) {
         String sql = "select * from timekeeping where 1=1";
         sql += " and user_id = " + userId;
         sql += " and months = '" + months + "'";
-        return entityManager.createNativeQuery(sql,TimeKeeping.class).getResultList();
+        return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
 
     @Override
     public Integer getWorkingTime(Integer userId, String months) {
         return null;
+    }
+
+    @Override
+    public List<TimeKeeping> getKeepingUserDayNow(String staffCode) {
+        String sql = "select * from timekeeping a inner join user b on a.user_id = b.id where 1=1 ";
+        if (staffCode != null && !staffCode.trim().equals("")) {
+            sql += " and b.staff_code = '" + staffCode + "'";
+        }
+        sql += " and day(a.entry_time) = day(now())";
+        return entityManager.createNativeQuery(sql, TimeKeeping.class).getResultList();
     }
 
 

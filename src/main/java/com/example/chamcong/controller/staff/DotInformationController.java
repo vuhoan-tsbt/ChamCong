@@ -1,6 +1,7 @@
 package com.example.chamcong.controller.staff;
 
 import com.example.chamcong.business.staff.DotInformationBusiness;
+import com.example.chamcong.dto.KeepingStaffDayNowDTO;
 import com.example.chamcong.model.PageResponse;
 import com.example.chamcong.model.RootResponse;
 import com.example.chamcong.model.request.DotInformationRequest;
@@ -14,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequestMapping(value = "/api/dot", produces = MediaType.APPLICATION_JSON_VALUE)
 @RestController
@@ -41,5 +43,10 @@ public class DotInformationController {
             @RequestBody @Valid ListSalaryEmployeeRequest input) {
         return RootResponse.success("Danh sách lương nhân viên", dotInformationBusiness.listSalaryEmployee(input));
     }
+    @GetMapping("/keeping-day")
+    public RootResponse<List<KeepingStaffDayNowDTO>> keepingUserDayNow(@RequestParam(required = false) String staffCode){
+        return RootResponse.success("Danh sách chấm công hôm nay",dotInformationBusiness.keepingUserDayNow(staffCode));
+    }
+
 
 }
